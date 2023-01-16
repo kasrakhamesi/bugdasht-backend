@@ -4,14 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "rebuild": "cd ./src/v1/ && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all && cd ../.. && nodemon index.js",
+    "dev": "cd ./src/v1/ && npx sequelize db:migrate && cd ../.. && nodemon index.js",
+    "start": "cd ./src/v1/ && npx sequelize db:migrate && cd ../.. && node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
-    "mysql2": "^3.0.1"
+    "morgan": "^1.10.0",
+    "mysql2": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "sequelize": "^6.28.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.5.2"
   }
 }
