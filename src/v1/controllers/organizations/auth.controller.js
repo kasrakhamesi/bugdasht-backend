@@ -1,4 +1,5 @@
-const { httpError } = require('../../configs')
+const { authorize } = require('../../middlewares')
+const { httpError, errorTypes, messageTypes } = require('../../configs')
 const { sequelize } = require('../../models')
 
 const preRegister = (req, res) => {
@@ -6,8 +7,15 @@ const preRegister = (req, res) => {
   const data = { name, delegateName, phoneNumber, email }
   return sequelize.models.organizations
     .create(data)
-    .then((r) => {})
+    .then((r) => {
+      if (!r) return httpError(errorTypes.INVALID_INPUTS, res)
+      return res
+        .status(messageTypes.SUCCESSFUL_CREATED.statusCode)
+        .send(messageTypes.SUCCESSFUL_CREATED)
+    })
     .catch((e) => {
       return httpError(e?.message, res)
     })
 }
+
+module.exports = { preRegister }
