@@ -1,24 +1,41 @@
 'use strict'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('jwts', {
+    await queryInterface.createTable('organizations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT.UNSIGNED
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      nickname: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      delegateName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      phoneNumber: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       password: {
         type: Sequelize.STRING,
         allowNull: true
+      },
+      status: {
+        type: Sequelize.ENUM('pending', 'rejected', 'approved'),
+        defaultValue: 'pending',
+        allowNull: false
       },
       createdAt: {
         allowNull: true,
@@ -31,6 +48,6 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('jwts')
+    await queryInterface.dropTable('organizations')
   }
 }
