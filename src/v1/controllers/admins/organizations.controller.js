@@ -1,6 +1,7 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
 const { httpError } = require('../../configs')
+const bcrypt = require('bcrypt')
 const organizations = new restful(sequelize.models.organizations)
 
 const findOne = async (req, res) => {
@@ -10,6 +11,9 @@ const findOne = async (req, res) => {
     const r = await organizations.Get({
       where: {
         id
+      },
+      attributes: {
+        exclude: ['password']
       },
       findOne: true
     })
@@ -29,6 +33,9 @@ const findAll = async (req, res) => {
 
     const r = await organizations.Get({
       where,
+      attributes: {
+        exclude: ['password']
+      },
       order: [['id', 'desc']],
       pagination: {
         active: true,
@@ -50,7 +57,7 @@ const update = async (req, res) => {
 
     const data = {
       username,
-      password,
+      password: bcrypt.hashSync(password, 12),
       status,
       adminId
     }

@@ -9,10 +9,10 @@
   "basePath": "/v1/hunters",
   "schemes": ["http"],
   "paths": {
-    "/": {
+    "/auth/register": {
       "post": {
         "tags": ["Auth"],
-        "summary": "PreRegister for submit information to check by admin",
+        "summary": "Register",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
@@ -20,7 +20,74 @@
             "in": "body",
             "name": "body",
             "required": true,
-            "schema": { "$ref": "#/definitions/PreRegister" }
+            "schema": { "$ref": "#/definitions/Register" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 201,
+                "data": {
+                  "id": 5,
+                  "firstName": "kasra",
+                  "lastName": "khamesi",
+                  "nationalCode": "022922991",
+                  "birthDate": "Birth Date",
+                  "phoneNumber": "09385667274",
+                  "updatedAt": "2023-01-19T02:26:19.222Z",
+                  "createdAt": "2023-01-19T02:26:19.222Z",
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJodW50ZXIiLCJpYXQiOjE2NzQwOTUxNzksImV4cCI6MTY3NzY5NTE3OX0.OWM9Druzvr9MyQjrQx3W-cQa3hi1Cdo9oYmJLUuxttM",
+                    "expireAt": "2023-03-01T18:26:19.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Login" }
           }
         ],
         "responses": {
@@ -30,7 +97,26 @@
               "application/json": {
                 "statusCode": 200,
                 "data": {
-                  "message": "با موفقعیت ثبت شد"
+                  "id": 1,
+                  "profileImage": null,
+                  "nationalCode": 22922991,
+                  "nickName": null,
+                  "firstName": "kasra",
+                  "lastName": "khamesi",
+                  "birthDate": "Birth Date",
+                  "phoneNumber": "09385667274",
+                  "email": null,
+                  "shebaNumber": null,
+                  "twitter": null,
+                  "linkedin": null,
+                  "bugCrowd": null,
+                  "hackerOne": null,
+                  "createdAt": "2023-01-19T02:24:46.000Z",
+                  "updatedAt": "2023-01-19T02:24:46.000Z",
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJodW50ZXIiLCJpYXQiOjE2NzQwOTU0NTUsImV4cCI6MTY3NzY5NTQ1NX0.WwznDT1aViQeiygtsQSSRV1vXjXKBe6y0wN94f937F8",
+                    "expireAt": "2023-03-01T18:30:55.000Z"
+                  }
                 },
                 "error": null
               }
@@ -75,16 +161,34 @@
     }
   },
   "definitions": {
-    "PreRegister": {
+    "Register": {
       "type": "object",
       "properties": {
-        "email": { "type": "string", "example": "kasra@gmail.com" },
-        "name": { "type": "string", "example": "Kasra" },
-        "delegateName": {
+        "firstName": { "type": "string", "example": "kasra" },
+        "lastName": { "type": "string", "example": "khamesi" },
+        "nationalCode": {
+          "type": "number",
+          "example": "022922991"
+        },
+        "birthDate": {
           "type": "string",
-          "example": "این یک نام نماینده است"
+          "example": "Birth Date"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
         },
         "phoneNumber": { "type": "string", "example": "09385667274" }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "phoneNumber": { "type": "string", "example": "09385667274" },
+        "password": {
+          "type": "string",
+          "example": "password"
+        }
       }
     }
   }

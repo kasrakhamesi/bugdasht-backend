@@ -353,6 +353,368 @@
           }
         }
       }
+    },
+    "/hunters/id/{id}": {
+      "get": {
+        "tags": ["Hunters"],
+        "summary": "Get One Of Hunters",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "کسری خامسی",
+                  "phoneNumber": "09385667274",
+                  "active": true,
+                  "createdAt": null,
+                  "updatedAt": null,
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTY3NDA5MzI1NywiZXhwIjoxNjc3NjkzMjU3fQ.zeaVQFECdcljeq831VPLpNuOfDrgjqkxdbeDCBlHAsk",
+                    "expireAt": "2023-03-01T17:54:17.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Hunters"],
+        "summary": "Update One Of Hunters",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Hunters" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 5,
+                  "profileImage": null,
+                  "nationalCode": 22922991,
+                  "nickName": null,
+                  "firstName": "kasra",
+                  "lastName": "khamesi",
+                  "birthDate": "Birth Date",
+                  "phoneNumber": "09385667274",
+                  "email": null,
+                  "shebaNumber": null,
+                  "twitter": null,
+                  "linkedin": null,
+                  "bugCrowd": null,
+                  "hackerOne": null,
+                  "createdAt": "2023-01-19T02:26:19.000Z",
+                  "updatedAt": "2023-01-19T02:26:19.000Z"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Hunters"],
+        "summary": "Delete Hunters Account",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با موفقعیت حذف شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hunters": {
+      "get": {
+        "tags": ["Hunters"],
+        "summary": "Get All Hunters",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "search",
+            "description": "search by phoneNumber or name",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 5,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "hunters": [
+                    {
+                      "id": 5,
+                      "profileImage": null,
+                      "nationalCode": 22922991,
+                      "nickName": null,
+                      "firstName": "kasra",
+                      "lastName": "khamesi",
+                      "birthDate": "Birth Date",
+                      "phoneNumber": "09385667274",
+                      "email": null,
+                      "shebaNumber": null,
+                      "twitter": null,
+                      "linkedin": null,
+                      "bugCrowd": null,
+                      "hackerOne": null,
+                      "createdAt": "2023-01-19T02:26:19.000Z",
+                      "updatedAt": "2023-01-19T02:26:19.000Z"
+                    },
+                    {
+                      "id": 4,
+                      "profileImage": null,
+                      "nationalCode": 22922991,
+                      "nickName": null,
+                      "firstName": "kasra",
+                      "lastName": "khamesi",
+                      "birthDate": "Birth Date",
+                      "phoneNumber": "09385667274",
+                      "email": null,
+                      "shebaNumber": null,
+                      "twitter": null,
+                      "linkedin": null,
+                      "bugCrowd": null,
+                      "hackerOne": null,
+                      "createdAt": "2023-01-19T02:26:03.000Z",
+                      "updatedAt": "2023-01-19T02:26:03.000Z"
+                    },
+                    {
+                      "id": 3,
+                      "profileImage": null,
+                      "nationalCode": 22922991,
+                      "nickName": null,
+                      "firstName": "kasra",
+                      "lastName": "khamesi",
+                      "birthDate": "Birth Date",
+                      "phoneNumber": "09385667274",
+                      "email": null,
+                      "shebaNumber": null,
+                      "twitter": null,
+                      "linkedin": null,
+                      "bugCrowd": null,
+                      "hackerOne": null,
+                      "createdAt": "2023-01-19T02:25:22.000Z",
+                      "updatedAt": "2023-01-19T02:25:22.000Z"
+                    },
+                    {
+                      "id": 2,
+                      "profileImage": null,
+                      "nationalCode": 213,
+                      "nickName": null,
+                      "firstName": "kasra",
+                      "lastName": "khamesi",
+                      "birthDate": "Birth Date",
+                      "phoneNumber": "09385667274",
+                      "email": null,
+                      "shebaNumber": null,
+                      "twitter": null,
+                      "linkedin": null,
+                      "bugCrowd": null,
+                      "hackerOne": null,
+                      "createdAt": "2023-01-19T02:25:16.000Z",
+                      "updatedAt": "2023-01-19T02:25:16.000Z"
+                    },
+                    {
+                      "id": 1,
+                      "profileImage": null,
+                      "nationalCode": 22922991,
+                      "nickName": null,
+                      "firstName": "kasra",
+                      "lastName": "khamesi",
+                      "birthDate": "Birth Date",
+                      "phoneNumber": "09385667274",
+                      "email": null,
+                      "shebaNumber": null,
+                      "twitter": null,
+                      "linkedin": null,
+                      "bugCrowd": null,
+                      "hackerOne": null,
+                      "createdAt": "2023-01-19T02:24:46.000Z",
+                      "updatedAt": "2023-01-19T02:24:46.000Z"
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -381,6 +743,24 @@
           "example": "approved",
           "enum": ["pending", "approved", "rejected"]
         }
+      }
+    },
+    "Hunters": {
+      "type": "object",
+      "properties": {
+        "nationalCode": { "type": "string", "example": "2101231233" },
+        "nickName": { "type": "string", "example": "nick Name" },
+        "firstName": { "type": "string", "example": "first Name" },
+        "lastName": { "type": "string", "example": "last Name" },
+        "birthDate": { "type": "string", "example": "Birth Day" },
+        "phoneNumber": { "type": "string", "example": "09385667274" },
+        "email": { "type": "string", "example": "email@mail.com" },
+        "shebaNumber": { "type": "string", "example": "123123123123123" },
+        "twitter": { "type": "string", "example": "twitter" },
+        "linkedin": { "type": "string", "example": "linkedin" },
+        "bugCrowd": { "type": "string", "example": "bugCrowd" },
+        "password": { "type": "string", "example": "password" },
+        "hackerOne": { "type": "string", "example": "hackerOne" }
       }
     }
   }
