@@ -1,7 +1,6 @@
 const { httpError, errorTypes, messageTypes } = require('../../configs')
 const { authorize } = require('../../middlewares')
 const { sequelize } = require('../../models')
-const { authentications } = require('../../services')
 const { utils } = require('../../libs')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
@@ -51,12 +50,17 @@ const loginConfirm = async (req, res) => {
     if (!bcrypt.compareSync(password, admin?.password))
       return httpError(errorTypes.INVALID_PHONE_PASSWORD, res)
 
-    const accessToken = authorize.generateAdminJwt(r?.id, r?.phoneNumber)
+    const accessToken = authorize.generateAdminJwt(
+      admin?.id,
+      admin?.phoneNumber
+    )
+
+    delete admin?.dataValues?.password
+
     return res.status(200).send({
       statusCode: 200,
       data: {
-        ...r?.dataValues,
-        avatar: null,
+        ...admin?.dataValues,
         token: {
           access: accessToken,
           expireAt: utils.timestampToIso(

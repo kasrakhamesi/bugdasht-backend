@@ -9,10 +9,10 @@
   "basePath": "/v1/admins",
   "schemes": ["http"],
   "paths": {
-    "/": {
+    "/auth/login-confirm": {
       "post": {
         "tags": ["Auth"],
-        "summary": "PreRegister for submit information to check by admin",
+        "summary": "Confirm Login for open admin panel",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
@@ -20,7 +20,7 @@
             "in": "body",
             "name": "body",
             "required": true,
-            "schema": { "$ref": "#/definitions/PreRegister" }
+            "schema": { "$ref": "#/definitions/LoginConfirm" }
           }
         ],
         "responses": {
@@ -30,7 +30,16 @@
               "application/json": {
                 "statusCode": 200,
                 "data": {
-                  "message": "با موفقعیت ثبت شد"
+                  "id": 1,
+                  "name": "کسری خامسی",
+                  "phoneNumber": "09385667274",
+                  "active": true,
+                  "createdAt": null,
+                  "updatedAt": null,
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTY3NDA5MzI1NywiZXhwIjoxNjc3NjkzMjU3fQ.zeaVQFECdcljeq831VPLpNuOfDrgjqkxdbeDCBlHAsk",
+                    "expireAt": "2023-03-01T17:54:17.000Z"
+                  }
                 },
                 "error": null
               }
@@ -64,6 +73,286 @@
           }
         }
       }
+    },
+    "/organizations/id/{id}": {
+      "get": {
+        "tags": ["Organizations"],
+        "summary": "Get One Of Organization",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "کسری خامسی",
+                  "phoneNumber": "09385667274",
+                  "active": true,
+                  "createdAt": null,
+                  "updatedAt": null,
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTY3NDA5MzI1NywiZXhwIjoxNjc3NjkzMjU3fQ.zeaVQFECdcljeq831VPLpNuOfDrgjqkxdbeDCBlHAsk",
+                    "expireAt": "2023-03-01T17:54:17.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Organizations"],
+        "summary": "Update One Of Organization",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Organizations" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "Kasra",
+                  "delegateName": "این یک نام نماینده است",
+                  "phoneNumber": "09385667274",
+                  "email": "kasra@gmail.com",
+                  "username": null,
+                  "password": null,
+                  "adminId": null,
+                  "status": "pending",
+                  "createdAt": "2023-01-19T02:11:10.000Z",
+                  "updatedAt": "2023-01-19T02:11:10.000Z"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Organizations"],
+        "summary": "Delete Organization Account",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با موفقعیت حذف شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "tags": ["Organizations"],
+        "summary": "Get All Organizations",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "search",
+            "description": "search by phoneNumber or name",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 1,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "organizations": [
+                    {
+                      "id": 1,
+                      "name": "Kasra",
+                      "delegateName": "این یک نام نماینده است",
+                      "phoneNumber": "09385667274",
+                      "email": "kasra@gmail.com",
+                      "username": null,
+                      "password": null,
+                      "adminId": null,
+                      "status": "pending",
+                      "createdAt": "2023-01-19T02:11:10.000Z",
+                      "updatedAt": "2023-01-19T02:11:10.000Z"
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -75,16 +364,23 @@
     }
   },
   "definitions": {
-    "PreRegister": {
+    "LoginConfirm": {
       "type": "object",
       "properties": {
-        "email": { "type": "string", "example": "kasra@gmail.com" },
-        "name": { "type": "string", "example": "Kasra" },
-        "delegateName": {
+        "phoneNumber": { "type": "string", "example": "09385667274" },
+        "password": { "type": "string", "example": "superadmin" }
+      }
+    },
+    "Organizations": {
+      "type": "object",
+      "properties": {
+        "username": { "type": "string", "example": "ThisIsUsername" },
+        "password": { "type": "string", "example": "password" },
+        "status": {
           "type": "string",
-          "example": "این یک نام نماینده است"
-        },
-        "phoneNumber": { "type": "string", "example": "09385667274" }
+          "example": "approved",
+          "enum": ["pending", "approved", "rejected"]
+        }
       }
     }
   }

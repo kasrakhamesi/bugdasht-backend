@@ -38,6 +38,13 @@ module.exports = {
           defaultValue: 'pending',
           allowNull: false
         },
+        adminId: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          references: { model: 'admins', key: 'id' },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          allowNull: true
+        },
         createdAt: {
           allowNull: true,
           type: Sequelize.DATE
@@ -49,6 +56,11 @@ module.exports = {
       })
       .then(() =>
         queryInterface.addIndex('organizations', ['phoneNumber', 'status'], {
+          unique: true
+        })
+      )
+      .then(() =>
+        queryInterface.addIndex('organizations', ['username'], {
           unique: true
         })
       )
