@@ -102,6 +102,14 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT('long'),
         allowNull: false
+      },
+      startAt: {
+        allowNull: true,
+        type: DataTypes.DATE
+      },
+      expireAt: {
+        allowNull: true,
+        type: DataTypes.DATE
       }
     },
     {

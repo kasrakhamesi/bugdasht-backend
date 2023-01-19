@@ -101,6 +101,14 @@ module.exports = {
         type: Sequelize.TEXT('long'),
         allowNull: false
       },
+      startAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      expireAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE
