@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bugdasht API - Organizations",
+    "description": "Bugdasht Backend Restful-API ( Organizations Panel )",
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/v1/organizations",
+  "schemes": ["http"],
+  "paths": {
+    "/auth/pre-register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "PreRegister for submit information to check by admin",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PreRegister" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با موفقعیت ثبت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "PreRegister": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "example": "kasra@gmail.com" },
+        "name": { "type": "string", "example": "Kasra" },
+        "delegateName": {
+          "type": "string",
+          "example": "این یک نام نماینده است"
+        },
+        "phoneNumber": { "type": "string", "example": "09385667274" }
+      }
+    }
+  }
+}

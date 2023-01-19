@@ -3,7 +3,7 @@ const passportJwt = require('passport-jwt')
 const { sequelize } = require('../models')
 const adminsPassport = new Passport()
 const huntersPassport = new Passport()
-const organizationPassport = new Passport()
+const organizationsPassport = new Passport()
 const ExtractJwt = passportJwt.ExtractJwt
 const StrategyJwt = passportJwt.Strategy
 const _ = require('lodash')
@@ -121,4 +121,4 @@ organizationsPassport.use(
   )
 )
 
-module.exports = { adminsPassport, huntersPassport, organizationPassport }
+module.exports = { adminsPassport, huntersPassport, organizationsPassport }
