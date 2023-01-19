@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      description: {
-        type: DataTypes.TEXT,
+      metaData: {
+        type: DataTypes.JSON,
         allowNull: true
       },
       active: {

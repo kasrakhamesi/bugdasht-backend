@@ -1,0 +1,83 @@
+'use strict'
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('verifies', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.BIGINT.UNSIGNED
+      },
+      adminId: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        references: { model: 'admins', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      hunterId: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: 'hunters', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      organizationId: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: 'organizations', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      phoneNumber: {
+        type: Sequelize.STRING(11),
+        unique: {
+          args: true,
+          msg: 'This phoneNumber is already registered.'
+        },
+        validate: {
+          is: /^(\+98|0098|98|0)?9\d{9}$/
+        },
+        allowNull: true
+      },
+      code: {
+        type: Sequelize.INTEGER(6),
+        allowNull: false
+      },
+      used: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      passwordResetToken: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+        allowNull: true
+      },
+      passwordReset: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      registerData: {
+        type: Sequelize.JSON,
+        allowNull: true
+      },
+      expireAt: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      createdAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      }
+    })
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('verifies')
+  }
+}

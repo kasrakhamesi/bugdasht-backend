@@ -8,35 +8,59 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT.UNSIGNED
       },
-      idNumber: {
+      profileImage: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      nationalCode: {
         type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: true
+      },
+      nickName: {
+        type: Sequelize.STRING,
         allowNull: true
       },
       firstName: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       lastName: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
-      birthday: {
+      birthDate: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       phoneNumber: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,
         allowNull: true
       },
-      nickname: {
+      password: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      password: {
+      shebaNumber: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      twitter: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      linkedin: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      bugCrowd: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      hackerOne: {
         type: Sequelize.STRING,
         allowNull: true
       },

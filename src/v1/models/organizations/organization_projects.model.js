@@ -58,9 +58,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      paymentAmount: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        defaultValue: null,
+        allowNull: null
+      },
+      hasPayment: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      adminId: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        references: { model: 'admins', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      status: {
+        type: DataTypes.ENUM('pending', 'rejected', 'approved'),
+        defaultValue: 'pending',
+        allowNull: false
       },
       description: {
         type: DataTypes.TEXT('long'),

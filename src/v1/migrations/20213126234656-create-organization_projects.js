@@ -60,6 +60,28 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      adminId: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        references: { model: 'admins', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      status: {
+        type: Sequelize.ENUM('pending', 'rejected', 'approved'),
+        defaultValue: 'pending',
+        allowNull: false
+      },
+      paymentAmount: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        defaultValue: null,
+        allowNull: null
+      },
+      hasPayment: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
       description: {
         type: Sequelize.TEXT('long'),
         allowNull: false

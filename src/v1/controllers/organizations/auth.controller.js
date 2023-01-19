@@ -30,8 +30,7 @@ const login = async (req, res) => {
   const r = await sequelize.models.organizations
     .findOne({
       where: {
-        username,
-        password: bcrypt.compareSync(password)
+        username
       }
     })
     .catch((e) => {
@@ -39,6 +38,9 @@ const login = async (req, res) => {
     })
 
   if (!r) return httpError(errorTypes.INVALID_PASSWORD, res)
+
+  if (!bcrypt.compareSync(password, r?.password))
+    return httpError(errorTypes.INVALID_PASSWORD, res)
 
   const accessToken = authorize.generateOrganizationJwt(r?.id, r?.phoneNumber)
 
