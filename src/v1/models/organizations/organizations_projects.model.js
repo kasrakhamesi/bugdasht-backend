@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       budget: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false
       },
       isVip: {
@@ -31,15 +31,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       lowPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false
       },
       midPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false
       },
       highPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false
       },
       ipAddress: {
@@ -80,8 +80,18 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       status: {
-        type: DataTypes.ENUM('pending', 'rejected', 'approved'),
+        type: DataTypes.ENUM(
+          'pending',
+          'canceled',
+          'approved',
+          'payment_pending',
+          'end_of_budget'
+        ),
         defaultValue: 'pending',
+        allowNull: false
+      },
+      canceledReason: {
+        type: DataTypes.STRING,
         allowNull: false
       },
       isActive: {

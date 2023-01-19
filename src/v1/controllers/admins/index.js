@@ -1,3 +1,6 @@
 module.exports.auth = require('./auth.controller')
 module.exports.organizations = require('./organizations.controller')
 module.exports.hunters = require('./hunters.controller')
+module.exports.admins = require('./admins.controller')
+module.exports.profile = require('./profile.controller')
+module.exports.projects = require('./projects.controller')

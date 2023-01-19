@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false
       },
       budget: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false
       },
       isVip: {
@@ -29,15 +29,15 @@ module.exports = {
         allowNull: false
       },
       lowPrice: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false
       },
       midPrice: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false
       },
       highPrice: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false
       },
       ipAddress: {
@@ -68,8 +68,18 @@ module.exports = {
         allowNull: true
       },
       status: {
-        type: Sequelize.ENUM('pending', 'rejected', 'approved'),
+        type: Sequelize.ENUM(
+          'pending',
+          'canceled',
+          'approved',
+          'payment_pending',
+          'end_of_budget'
+        ),
         defaultValue: 'pending',
+        allowNull: false
+      },
+      canceledReason: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       paymentAmount: {

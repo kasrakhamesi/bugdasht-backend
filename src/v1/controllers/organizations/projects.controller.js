@@ -1,16 +1,60 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
-const { httpError } = require('../../configs')
+const { httpError, messageTypes } = require('../../configs')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
 const vulnerabilities = new restful(sequelize.models.vulnerabilities)
 
+const findAll = async (req, res) => {}
+
+const findOne = async (req, res) => {}
+
+const softDelete = async (req, res) => {}
+
+const update = async (req, res) => {}
+
 const create = async (req, res) => {
-  try {
-  } catch (e) {
-    return httpError(e?.message, res)
+  const {
+    name,
+    budget,
+    isVip,
+    lowPrice,
+    midPrice,
+    highPrice,
+    ipAddress,
+    link,
+    domain,
+    username,
+    password,
+    description
+  } = req.body
+
+  const data = {
+    name,
+    budget,
+    isVip,
+    lowPrice,
+    midPrice,
+    highPrice,
+    ipAddress,
+    link,
+    domain,
+    username,
+    password,
+    description
   }
+
+  return sequelize.models.organizations_projects
+    .create(data)
+    .then(() => {
+      return res
+        .status(messageTypes.SUCCESSFUL_CREATED.statusCode)
+        .send(messageTypes.SUCCESSFUL_CREATED)
+    })
+    .catch((e) => {
+      return httpError(e, res)
+    })
 }
 
 const findAllVulnerabilities = async (req, res) => {
@@ -55,11 +99,16 @@ const findAllVulnerabilities = async (req, res) => {
       },
       error: null
     })
-
-    return res.status(r?.statusCode).send(r)
   } catch (e) {
     return httpError(e, res)
   }
 }
 
-module.exports = { findAllVulnerabilities }
+module.exports = {
+  findAllVulnerabilities,
+  create,
+  findAll,
+  findOne,
+  update,
+  softDelete
+}

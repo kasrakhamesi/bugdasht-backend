@@ -9,6 +9,504 @@
   "basePath": "/v1/admins",
   "schemes": ["http"],
   "paths": {
+    "/admins/profile": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "Update or change admin profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UpdateAdminProfile" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Profile"],
+        "summary": "get admin profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "کسری",
+                  "phoneNumber": "09385667274",
+                  "active": true,
+                  "createdAt": null,
+                  "updatedAt": null,
+                  "role": {
+                    "id": 1,
+                    "name": "superAdmin"
+                  },
+                  "avatar": null,
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY2NzUxODE4MSwiZXhwIjoxNjcxMTE4MTgxfQ.v7681wvFLpzeuVOp9oz8MrjbYHhJcw-aSALFrwH5Tts",
+                    "expire": "2022-12-15T15:29:41.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admins": {
+      "post": {
+        "tags": ["Admins"],
+        "summary": "create new admin",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateOrUpdateAdmin" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "examples": {
+              "application/json": {
+                "statusCode": 201,
+                "data": {
+                  "message": "درخواست شما با موفقعیت ثبت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Admins"],
+        "summary": "Get all admins",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "search",
+            "description": "search by phoneNumber or name",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 25,
+                  "totalCount": 3,
+                  "totalPageLeft": 1,
+                  "totalCountLeft": 25,
+                  "admins": [
+                    {
+                      "id": 1,
+                      "name": "کسری",
+                      "phoneNumber": "09385667274",
+                      "active": true,
+                      "createdAt": null,
+                      "updatedAt": null,
+                      "role": {
+                        "id": 1,
+                        "name": "superAdmin"
+                      }
+                    },
+                    {
+                      "id": 2,
+                      "name": "کسری",
+                      "phoneNumber": "09385667272",
+                      "active": true,
+                      "createdAt": null,
+                      "updatedAt": null,
+                      "role": {
+                        "id": 1,
+                        "name": "superAdmin"
+                      }
+                    },
+                    {
+                      "id": 3,
+                      "name": "کسری",
+                      "phoneNumber": "09385667270",
+                      "active": true,
+                      "createdAt": null,
+                      "updatedAt": null,
+                      "role": {
+                        "id": 1,
+                        "name": "superAdmin"
+                      }
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admins/id/{id}": {
+      "get": {
+        "tags": ["Admins"],
+        "summary": "find one of admin Data",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "کسری",
+                  "phoneNumber": "09385667274",
+                  "active": true,
+                  "createdAt": null,
+                  "updatedAt": null
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admins"],
+        "summary": "delete one of admin Data",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 201,
+                "data": {
+                  "message": "درخواست شما با موفقعیت حذف شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Admins"],
+        "summary": "update or change one of admin Data",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateOrUpdateAdmin" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت ثبت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login-confirm": {
       "post": {
         "tags": ["Auth"],
@@ -178,17 +676,7 @@
               "application/json": {
                 "statusCode": 200,
                 "data": {
-                  "id": 1,
-                  "name": "Kasra",
-                  "delegateName": "این یک نام نماینده است",
-                  "phoneNumber": "09385667274",
-                  "email": "kasra@gmail.com",
-                  "username": null,
-                  "password": null,
-                  "adminId": null,
-                  "status": "pending",
-                  "createdAt": "2023-01-19T02:11:10.000Z",
-                  "updatedAt": "2023-01-19T02:11:10.000Z"
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
                 },
                 "error": null
               }
@@ -474,24 +962,7 @@
               "application/json": {
                 "statusCode": 200,
                 "data": {
-                  "id": 5,
-                  "profileImage": null,
-                  "nationalCode": 22922991,
-                  "nickName": null,
-                  "firstName": "kasra",
-                  "lastName": "khamesi",
-                  "birthDate": "Birth Date",
-                  "phoneNumber": "09385667274",
-                  "email": null,
-                  "shebaNumber": null,
-                  "twitter": null,
-                  "linkedin": null,
-                  "bugCrowd": null,
-                  "hackerOne": null,
-                  "description": null,
-                  "balance": 0,
-                  "createdAt": "2023-01-19T02:26:19.000Z",
-                  "updatedAt": "2023-01-19T02:26:19.000Z"
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
                 },
                 "error": null
               }
@@ -744,7 +1215,26 @@
         "linkedin": { "type": "string", "example": "linkedin" },
         "bugCrowd": { "type": "string", "example": "bugCrowd" },
         "password": { "type": "string", "example": "password" },
-        "hackerOne": { "type": "string", "example": "hackerOne" }
+        "hackerOne": { "type": "string", "example": "hackerOne" },
+        "description": { "type": "string", "example": "hackerOne" },
+        "balance": { "type": "integer", "example": 0 }
+      }
+    },
+    "CreateOrUpdateAdmin": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "example": "کسری میباشد" },
+        "phoneNumber": { "type": "string", "example": "09123456789" },
+        "password": { "type": "string", "example": "123456789" }
+      }
+    },
+
+    "UpdateAdminProfile": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "example": "کسری میباشد" },
+        "phoneNumber": { "type": "string", "example": "09123456789" },
+        "password": { "type": "string", "example": "123456789" }
       }
     }
   }

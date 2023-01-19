@@ -1,14 +1,14 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
-const { httpError } = require('../../configs')
+const { httpError, errorTypes } = require('../../configs')
 const bcrypt = require('bcrypt')
-const hunters = new restful(sequelize.models.hunters)
+const organizations = new restful(sequelize.models.organizations)
 
 const findOne = async (req, res) => {
   try {
     const { id } = req.params
 
-    const r = await hunters.Get({
+    const r = await organizations.Get({
       where: {
         id
       },
@@ -28,10 +28,10 @@ const findAll = async (req, res) => {
     const { page, pageSize } = req.query
     const [order, where] = await filters.filter(
       req.query,
-      sequelize.models.hunters
+      sequelize.models.organizations
     )
 
-    const r = await hunters.Get({
+    const r = await organizations.Get({
       where,
       attributes: {
         exclude: ['password']
@@ -52,43 +52,20 @@ const findAll = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params
-    const {
-      nationalCode,
-      nickName,
-      firstName,
-      lastName,
-      birthDate,
-      phoneNumber,
-      email,
-      shebaNumber,
-      twitter,
-      linkedin,
-      bugCrowd,
-      password,
-      hackerOne,
-      balance,
-      description
-    } = req.body
+    const { status, username, password } = req.body
+    const adminId = req?.user[0]?.id
+
+    if (!username || !password || !status)
+      return httpError(errorTypes.INVALID_INPUTS, res)
 
     const data = {
-      nationalCode,
-      nickName,
-      firstName,
-      lastName,
-      birthDate,
-      phoneNumber,
-      email,
-      shebaNumber,
-      twitter,
-      linkedin,
-      bugCrowd,
-      password,
-      hackerOne,
-      balance,
-      description
+      username,
+      password: bcrypt.hashSync(password, 12),
+      status,
+      adminId
     }
 
-    const r = await hunters.Put({ body: data, where: { id } })
+    const r = await organizations.Put({ body: data, where: { id } })
     return res.status(r?.statusCode).send(r)
   } catch (e) {
     return httpError(e, res)
@@ -98,7 +75,7 @@ const update = async (req, res) => {
 const softDelete = async (req, res) => {
   try {
     const { id } = req.params
-    const r = await hunters.Delete({ where: { id } })
+    const r = await organizations.Delete({ where: { id } })
     return res.status(r?.statusCode).send(r)
   } catch (e) {
     return httpError(e, res)
