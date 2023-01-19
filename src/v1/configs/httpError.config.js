@@ -32,6 +32,7 @@ const Config = (err, res = null) => {
       }
     })
   }
+
   let message = err?.message || 'ورودی نامعتبر'
   if (err?.name === 'SequelizeValidationError') {
     for (const entity of err?.errors) {

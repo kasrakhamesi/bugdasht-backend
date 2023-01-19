@@ -65,6 +65,15 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: true
         },
+        description: {
+          type: Sequelize.STRING,
+          allowNull: true
+        },
+        balance: {
+          type: Sequelize.BIGINT.UNSIGNED,
+          defaultValue: 0,
+          allowNull: false
+        },
         createdAt: {
           allowNull: true,
           type: Sequelize.DATE

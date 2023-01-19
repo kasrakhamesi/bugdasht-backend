@@ -1,7 +1,7 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class organization_projects extends Model {
+  class organizations_projects extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  organization_projects.init(
+  organizations_projects.init(
     {
       organizationId: {
         type: DataTypes.BIGINT.UNSIGNED,
@@ -84,6 +84,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'pending',
         allowNull: false
       },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+      },
       description: {
         type: DataTypes.TEXT('long'),
         allowNull: false
@@ -91,8 +96,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'organization_projects'
+      modelName: 'organizations_projects'
     }
   )
-  return organization_projects
+  return organizations_projects
 }

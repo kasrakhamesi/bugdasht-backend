@@ -4,8 +4,7 @@ const router = Router()
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
-const { hunters } = require('../../controllers')
-router.post('/register', hunters.auth.register)
-router.post('/login', hunters.auth.login)
+const { organizations } = require('../../controllers')
+router.get('/vulnerabilities', organizations.projects.findAllVulnerabilities)
 
 module.exports = router

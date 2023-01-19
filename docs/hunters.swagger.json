@@ -111,12 +111,76 @@
                   "linkedin": null,
                   "bugCrowd": null,
                   "hackerOne": null,
+                  "description": null,
                   "createdAt": "2023-01-19T02:24:46.000Z",
                   "updatedAt": "2023-01-19T02:24:46.000Z",
                   "token": {
                     "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJodW50ZXIiLCJpYXQiOjE2NzQwOTU0NTUsImV4cCI6MTY3NzY5NTQ1NX0.WwznDT1aViQeiygtsQSSRV1vXjXKBe6y0wN94f937F8",
                     "expireAt": "2023-03-01T18:30:55.000Z"
                   }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/bank-accounts": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "Set Sheba Number Of Bank Account",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ShebaNumber" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با آپدیت ثبت شد"
                 },
                 "error": null
               }
@@ -189,6 +253,12 @@
           "type": "string",
           "example": "password"
         }
+      }
+    },
+    "ShebaNumber": {
+      "type": "object",
+      "properties": {
+        "shebaNumber": { "type": "string", "example": "09385667274" }
       }
     }
   }

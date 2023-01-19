@@ -1,7 +1,7 @@
 'use strict'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('organization_projects', {
+    await queryInterface.createTable('organizations_projects', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -82,6 +82,11 @@ module.exports = {
         defaultValue: false,
         allowNull: false
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+      },
       description: {
         type: Sequelize.TEXT('long'),
         allowNull: false
@@ -97,6 +102,6 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('organization_projects')
+    await queryInterface.dropTable('organizations_projects')
   }
 }

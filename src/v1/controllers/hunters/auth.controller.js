@@ -9,8 +9,6 @@ const login = async (req, res) => {
   if (!phoneNumber || !password)
     return httpError(errorTypes.INVALID_INPUTS, res)
 
-  console.log('areeeeeeeee')
-
   const r = await sequelize.models.hunters
     .findOne({
       where: {
@@ -18,7 +16,7 @@ const login = async (req, res) => {
       }
     })
     .catch((e) => {
-      return httpError(e?.message, res)
+      return httpError(e, res)
     })
 
   if (!r) return httpError(errorTypes.INVALID_PASSWORD, res)
@@ -84,30 +82,8 @@ const register = (req, res) => {
       })
     })
     .catch((e) => {
-      return httpError(e?.message, res)
+      return httpError(e, res)
     })
 }
 
-const findOne = async (req, res) => {
-  try {
-    const hunterId = req?.user[0]?.id
-    const hunter = await sequelize.models.hunters.findOne({
-      where: {
-        id: hunterId
-      },
-      attributes: {
-        exclude: ['password']
-      }
-    })
-
-    return res.status(200).send({
-      statusCode: 200,
-      data: hunter,
-      error: null
-    })
-  } catch (e) {
-    return httpError(e, res)
-  }
-}
-
-module.exports = { login, register, findOne }
+module.exports = { login, register }

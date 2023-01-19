@@ -299,8 +299,24 @@
             "required": true
           },
           {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          },
+          {
             "name": "search",
-            "description": "search by phoneNumber or name",
+            "description": "search",
             "in": "query",
             "type": "string",
             "required": false
@@ -472,6 +488,8 @@
                   "linkedin": null,
                   "bugCrowd": null,
                   "hackerOne": null,
+                  "description": null,
+                  "balance": 0,
                   "createdAt": "2023-01-19T02:26:19.000Z",
                   "updatedAt": "2023-01-19T02:26:19.000Z"
                 },
@@ -584,8 +602,24 @@
             "required": true
           },
           {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          },
+          {
             "name": "search",
-            "description": "search by phoneNumber or name",
+            "description": "search",
             "in": "query",
             "type": "string",
             "required": false
@@ -619,6 +653,8 @@
                       "linkedin": null,
                       "bugCrowd": null,
                       "hackerOne": null,
+                      "description": null,
+                      "balance": 0,
                       "createdAt": "2023-01-19T02:26:19.000Z",
                       "updatedAt": "2023-01-19T02:26:19.000Z"
                     },
@@ -637,62 +673,10 @@
                       "linkedin": null,
                       "bugCrowd": null,
                       "hackerOne": null,
+                      "description": null,
+                      "balance": 0,
                       "createdAt": "2023-01-19T02:26:03.000Z",
                       "updatedAt": "2023-01-19T02:26:03.000Z"
-                    },
-                    {
-                      "id": 3,
-                      "profileImage": null,
-                      "nationalCode": 22922991,
-                      "nickName": null,
-                      "firstName": "kasra",
-                      "lastName": "khamesi",
-                      "birthDate": "Birth Date",
-                      "phoneNumber": "09385667274",
-                      "email": null,
-                      "shebaNumber": null,
-                      "twitter": null,
-                      "linkedin": null,
-                      "bugCrowd": null,
-                      "hackerOne": null,
-                      "createdAt": "2023-01-19T02:25:22.000Z",
-                      "updatedAt": "2023-01-19T02:25:22.000Z"
-                    },
-                    {
-                      "id": 2,
-                      "profileImage": null,
-                      "nationalCode": 213,
-                      "nickName": null,
-                      "firstName": "kasra",
-                      "lastName": "khamesi",
-                      "birthDate": "Birth Date",
-                      "phoneNumber": "09385667274",
-                      "email": null,
-                      "shebaNumber": null,
-                      "twitter": null,
-                      "linkedin": null,
-                      "bugCrowd": null,
-                      "hackerOne": null,
-                      "createdAt": "2023-01-19T02:25:16.000Z",
-                      "updatedAt": "2023-01-19T02:25:16.000Z"
-                    },
-                    {
-                      "id": 1,
-                      "profileImage": null,
-                      "nationalCode": 22922991,
-                      "nickName": null,
-                      "firstName": "kasra",
-                      "lastName": "khamesi",
-                      "birthDate": "Birth Date",
-                      "phoneNumber": "09385667274",
-                      "email": null,
-                      "shebaNumber": null,
-                      "twitter": null,
-                      "linkedin": null,
-                      "bugCrowd": null,
-                      "hackerOne": null,
-                      "createdAt": "2023-01-19T02:24:46.000Z",
-                      "updatedAt": "2023-01-19T02:24:46.000Z"
                     }
                   ]
                 },

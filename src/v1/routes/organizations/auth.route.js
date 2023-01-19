@@ -6,5 +6,6 @@ router.use(bodyParser.json())
 
 const { organizations } = require('../../controllers')
 router.post('/pre-register', organizations.auth.preRegister)
+router.post('/login', organizations.auth.login)
 
 module.exports = router

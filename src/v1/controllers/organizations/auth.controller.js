@@ -17,8 +17,7 @@ const preRegister = (req, res) => {
         .send(messageTypes.SUCCESSFUL_CREATED)
     })
     .catch((e) => {
-      console.log(e)
-      return httpError(e?.message, res)
+      return httpError(e, res)
     })
 }
 
@@ -34,7 +33,7 @@ const login = async (req, res) => {
       }
     })
     .catch((e) => {
-      return httpError(e?.message, res)
+      return httpError(e, res)
     })
 
   if (!r) return httpError(errorTypes.INVALID_PASSWORD, res)
@@ -44,7 +43,8 @@ const login = async (req, res) => {
 
   const accessToken = authorize.generateOrganizationJwt(r?.id, r?.phoneNumber)
 
-  delete r?.password
+  delete r?.dataValues?.password
+  delete r?.dataValues?.adminId
 
   return res.status(200).send({
     statusCode: 200,

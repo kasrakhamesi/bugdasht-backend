@@ -5,7 +5,8 @@ router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
 const { hunters } = require('../../controllers')
-router.post('/register', hunters.auth.register)
-router.post('/login', hunters.auth.login)
+router.put('/iban', hunters.profile.updateIban)
+router.put('/social-networks', hunters.profile.updateSocialNetworkData)
+router.get('/', hunters.profile.findOne)
 
 module.exports = router

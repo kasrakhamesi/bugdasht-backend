@@ -68,6 +68,11 @@ module.exports = (sequelize, DataTypes) => {
       hackerOne: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      balance: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        defaultValue: 0,
+        allowNull: false
       }
     },
     {

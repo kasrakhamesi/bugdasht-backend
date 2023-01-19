@@ -11,5 +11,7 @@ const organizationsPassport = passport.organizationsPassport.authenticate(
 )
 router.use(passport.organizationsPassport.initialize())
 router.use('/auth', require('./auth.route'))
+router.use('/projects', organizationsPassport, require('./projects.route'))
+router.use('/profile', organizationsPassport, require('./profile.route'))
 
 module.exports = router

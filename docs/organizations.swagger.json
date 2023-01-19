@@ -24,13 +24,260 @@
           }
         ],
         "responses": {
+          "201": {
+            "description": "Created",
+            "examples": {
+              "application/json": {
+                "statusCode": 201,
+                "data": {
+                  "message": "با موفقعیت ثبت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Login" }
+          }
+        ],
+        "responses": {
           "200": {
             "description": "OK",
             "examples": {
               "application/json": {
                 "statusCode": 200,
                 "data": {
-                  "message": "با موفقعیت ثبت شد"
+                  "id": 1,
+                  "name": "Kasra",
+                  "delegateName": "این یک نام نماینده است",
+                  "phoneNumber": "09385667274",
+                  "email": "kasra@gmail.com",
+                  "username": "username",
+                  "status": "approved",
+                  "createdAt": "2023-01-19T02:11:10.000Z",
+                  "updatedAt": "2023-01-19T12:39:12.000Z",
+                  "token": {
+                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGhvbmVOdW1iZXIiOiIwOTM4NTY2NzI3NCIsInR5cGUiOiJvcmdhbml6YXRpb24iLCJpYXQiOjE2NzQxMzIxMzksImV4cCI6MTY3NzczMjEzOX0.08CIvNUoz6eWdMkxv2oFDu418ONgJ6XHHmZAwNyWkHA",
+                    "expireAt": "2023-03-02T04:42:19.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/vulnerabilities": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get Vulnerabilities List",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "search",
+            "description": "search",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 2,
+                  "pageSize": 25,
+                  "totalCount": 41,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "vulnerabilities": [
+                    {
+                      "id": 26,
+                      "title": "Username / email enumeration by brute forcing / error messages (e.g. login / signup / forgotten password)",
+                      "metaData": [
+                        "Exceptional cases may still be in scope (e.g. ability to enumerate email addresses via incrementing a numeric parameter)"
+                      ]
+                    },
+                    {
+                      "id": 27,
+                      "title": "Use of a known-vulnerable component (exceptional cases, such as where you are able to provide proof of exploitation, may still be in scope)",
+                      "metaData": null
+                    },
+                    {
+                      "id": 28,
+                      "title": "OPTIONS HTTP method enabled",
+                      "metaData": null
+                    },
+                    {
+                      "id": 29,
+                      "title": "Missing HTTP security headers, e.g",
+                      "metaData": [
+                        "Strict-Transport-Security",
+                        "X-Frame-Options",
+                        "X-XSS-Protection",
+                        "X-Content-Type-Options",
+                        "Content-Security-Policy, X-Content-Security-Policy, X-WebKit-CSP",
+                        "Content-Security-Policy-Report-Only"
+                      ]
+                    },
+                    {
+                      "id": 30,
+                      "title": "SSL Issues, e.g",
+                      "metaData": [
+                        "SSL Attacks such as BEAST, BREACH, Renegotiation attack",
+                        "SSL Forward secrecy not enabled",
+                        "SSL weak / insecure cipher suites"
+                      ]
+                    },
+                    {
+                      "id": 31,
+                      "title": "Self XSS / XSS issues that affect only outdated browsers (like Internet Explorer)",
+                      "metaData": null
+                    },
+                    {
+                      "id": 32,
+                      "title": "Text injection",
+                      "metaData": null
+                    },
+                    {
+                      "id": 33,
+                      "title": "Spamming",
+                      "metaData": null
+                    },
+                    {
+                      "id": 34,
+                      "title": "Best practices",
+                      "metaData": null
+                    },
+                    {
+                      "id": 35,
+                      "title": "WAF bypass",
+                      "metaData": null
+                    },
+                    {
+                      "id": 36,
+                      "title": "Internal IP address disclosure",
+                      "metaData": null
+                    },
+                    {
+                      "id": 37,
+                      "title": "Denial of Service attacks",
+                      "metaData": null
+                    },
+                    {
+                      "id": 38,
+                      "title": "Out-of-date software",
+                      "metaData": null
+                    },
+                    {
+                      "id": 39,
+                      "title": "DNS issues (i.e. mx records, SPF records, etc.)",
+                      "metaData": null
+                    },
+                    {
+                      "id": 40,
+                      "title": "Social engineering / phishing attacks / Email spoofing, and related issues",
+                      "metaData": null
+                    },
+                    {
+                      "id": 41,
+                      "title": "Physical attacks against Alibaba's Facilities / Property",
+                      "metaData": null
+                    }
+                  ]
                 },
                 "error": null
               }
@@ -85,6 +332,13 @@
           "example": "این یک نام نماینده است"
         },
         "phoneNumber": { "type": "string", "example": "09385667274" }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "username": { "type": "string", "example": "username" },
+        "password": { "type": "string", "example": "password" }
       }
     }
   }

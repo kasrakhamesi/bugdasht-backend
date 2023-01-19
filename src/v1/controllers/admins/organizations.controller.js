@@ -1,6 +1,6 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
-const { httpError } = require('../../configs')
+const { httpError, errorTypes } = require('../../configs')
 const bcrypt = require('bcrypt')
 const organizations = new restful(sequelize.models.organizations)
 
@@ -54,6 +54,9 @@ const update = async (req, res) => {
     const { id } = req.params
     const { status, username, password } = req.body
     const adminId = req?.user[0]?.id
+
+    if (!username || !password || !status)
+      return httpError(errorTypes.INVALID_INPUTS, res)
 
     const data = {
       username,
