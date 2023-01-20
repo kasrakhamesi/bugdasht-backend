@@ -28,6 +28,8 @@ npm start
 
 ## API Documentation
 
+- [Public Routes Swagger - Rest API](http://localhost:3000/v1/publics/api-docs)
+
 - [Hunters Swagger - Rest API](http://localhost:3000/v1/hunters/api-docs)
 
 - [Organizations Swagger - Rest API](http://localhost:3000/v1/organizations/api-docs)
