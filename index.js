@@ -31,7 +31,7 @@ app.use('/v1/admins/api-docs', swaggerUi.serve, (...args) =>
 )
 
 app.use('/v1/publics/api-docs', swaggerUi.serve, (...args) =>
-  swaggerUi.setup(swaggerDocuments.admins)(...args)
+  swaggerUi.setup(swaggerDocuments.publics)(...args)
 )
 
 app.use('*', (req, res) => {
