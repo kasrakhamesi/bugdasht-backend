@@ -1,5 +1,5 @@
 const { authorize } = require('../../middlewares')
-const { httpError, errorTypes, messageTypes } = require('../../configs')
+const { httpError, errorTypes } = require('../../configs')
 const { sequelize } = require('../../models')
 const bcrypt = require('bcrypt')
 const { utils } = require('../../libs')

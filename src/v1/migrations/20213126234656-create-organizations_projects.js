@@ -71,8 +71,8 @@ module.exports = {
         type: Sequelize.ENUM(
           'pending',
           'canceled',
+          'approved_for_payment',
           'approved',
-          'payment_pending',
           'end_of_budget'
         ),
         defaultValue: 'pending',
@@ -80,7 +80,7 @@ module.exports = {
       },
       canceledReason: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       paymentAmount: {
         type: Sequelize.BIGINT.UNSIGNED,

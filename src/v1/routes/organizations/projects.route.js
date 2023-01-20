@@ -8,9 +8,9 @@ const { organizations } = require('../../controllers')
 
 router.get('/vulnerabilities', organizations.projects.findAllVulnerabilities)
 
-router.delete('/id/:id', organizations.projects.softDelete)
 router.put('/id/:id', organizations.projects.update)
 router.get('/id/:id', organizations.projects.findOne)
 router.get('/', organizations.projects.findAll)
+router.post('/', organizations.projects.create)
 
 module.exports = router

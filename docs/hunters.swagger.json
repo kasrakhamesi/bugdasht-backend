@@ -152,6 +152,193 @@
         }
       }
     },
+    "/profile/change-password": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "change password",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ChangePassword" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "get  profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "profileImage": null,
+                  "nationalCode": 22922991,
+                  "nickName": null,
+                  "firstName": "kasra",
+                  "lastName": "khamesi",
+                  "birthDate": "Birth Date",
+                  "phoneNumber": "09385667274",
+                  "email": null,
+                  "shebaNumber": null,
+                  "twitter": null,
+                  "linkedin": null,
+                  "bugCrowd": null,
+                  "hackerOne": null,
+                  "balance": 0,
+                  "createdAt": "2023-01-20T00:19:03.000Z",
+                  "updatedAt": "2023-01-20T00:19:03.000Z"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/social-networks": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "change password",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SocialNetworks" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/profile/bank-accounts": {
       "put": {
         "tags": ["Profile"],
@@ -259,6 +446,22 @@
       "type": "object",
       "properties": {
         "shebaNumber": { "type": "string", "example": "09385667274" }
+      }
+    },
+    "SocialNetworks": {
+      "type": "object",
+      "properties": {
+        "twitter": { "type": "string", "example": "twitter" },
+        "linkedin": { "type": "string", "example": "linkedin" },
+        "bugCrowd": { "type": "string", "example": "bugCrowd" },
+        "hackerOne": { "type": "string", "example": "hackerOne" }
+      }
+    },
+    "ChangePassword": {
+      "type": "object",
+      "properties": {
+        "previousPassword": { "type": "string", "example": "password" },
+        "newPassword": { "type": "string", "example": "password1" }
       }
     }
   }

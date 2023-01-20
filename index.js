@@ -12,7 +12,8 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerDocuments = {
   hunters: require('./docs/hunters.swagger.json'),
   organizations: require('./docs/organizations.swagger.json'),
-  admins: require('./docs/admins.swagger.json')
+  admins: require('./docs/admins.swagger.json'),
+  publics: require('./docs/publics.swagger.json')
 }
 
 app.use('/v1', require('./src/v1/routes'))
@@ -26,6 +27,10 @@ app.use('/v1/organizations/api-docs', swaggerUi.serve, (...args) =>
 )
 
 app.use('/v1/admins/api-docs', swaggerUi.serve, (...args) =>
+  swaggerUi.setup(swaggerDocuments.admins)(...args)
+)
+
+app.use('/v1/publics/api-docs', swaggerUi.serve, (...args) =>
   swaggerUi.setup(swaggerDocuments.admins)(...args)
 )
 

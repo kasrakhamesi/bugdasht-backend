@@ -572,6 +572,266 @@
         }
       }
     },
+
+    "/organizations/projects/id/{id}": {
+      "get": {
+        "tags": ["Organizations-Projects"],
+        "summary": "Get One Of Organization",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "name",
+                  "budget": 2000,
+                  "isVip": false,
+                  "lowPrice": 100,
+                  "midPrice": 900,
+                  "highPrice": 1000,
+                  "ipAddress": "127.0.0.1",
+                  "link": "link.com",
+                  "domain": "domain.net",
+                  "username": "username",
+                  "paymentAmount": null,
+                  "hasPayment": false,
+                  "password": "password",
+                  "adminId": null,
+                  "status": "pending",
+                  "canceledReason": null,
+                  "isActive": true,
+                  "description": "this is a description as long text",
+                  "startAt": "2023-01-19T02:11:10.000Z",
+                  "expireAt": "2023-01-19T02:11:10.000Z",
+                  "createdAt": "2023-01-19T22:59:07.000Z",
+                  "updatedAt": "2023-01-19T22:59:07.000Z"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Organizations-Projects"],
+        "summary": "Update One Of Organization",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/OrganizationsProjects" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/projects": {
+      "get": {
+        "tags": ["Organizations-Projects"],
+        "summary": "Get All Organizations",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "status",
+            "description": "set status to filter",
+            "in": "query",
+            "type": "string",
+            "enum": ["canceled", "approved_for_payment", "approved", "pending"],
+            "required": false
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "search",
+            "description": "search",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 1,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "organizationsProjects": [
+                    {
+                      "id": 1,
+                      "name": "name",
+                      "budget": 2000,
+                      "isVip": false,
+                      "lowPrice": 100,
+                      "midPrice": 900,
+                      "highPrice": 1000,
+                      "ipAddress": "127.0.0.1",
+                      "link": "link.com",
+                      "domain": "domain.net",
+                      "username": "username",
+                      "paymentAmount": null,
+                      "hasPayment": false,
+                      "password": "password",
+                      "adminId": null,
+                      "status": "pending",
+                      "canceledReason": null,
+                      "isActive": true,
+                      "description": "this is a description as long text",
+                      "startAt": "2023-01-19T02:11:10.000Z",
+                      "expireAt": "2023-01-19T02:11:10.000Z",
+                      "createdAt": "2023-01-19T22:59:07.000Z",
+                      "updatedAt": "2023-01-19T22:59:07.000Z"
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/organizations/id/{id}": {
       "get": {
         "tags": ["Organizations"],
@@ -1235,6 +1495,20 @@
         "name": { "type": "string", "example": "کسری میباشد" },
         "phoneNumber": { "type": "string", "example": "09123456789" },
         "password": { "type": "string", "example": "123456789" }
+      }
+    },
+    "OrganizationsProjects": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "canceled",
+          "enum": ["approved_for_payment", "canceled"]
+        },
+        "cancelReason": {
+          "type": "string",
+          "example": "دلیل لغو اگر وجود دارد"
+        }
       }
     }
   }

@@ -1,0 +1,205 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bugdasht API - Public Routes",
+    "description": "Bugdasht Backend Restful-API ( Public Routes )",
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/v1/publics",
+  "schemes": ["http"],
+  "paths": {
+    "/projects/id/{id}": {
+      "post": {
+        "tags": ["Organizations-Projects"],
+        "summary": "find one projects",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "name": "name",
+                  "budget": 2000,
+                  "isVip": false,
+                  "lowPrice": 100,
+                  "midPrice": 900,
+                  "highPrice": 1000,
+                  "ipAddress": "127.0.0.1",
+                  "link": "link.com",
+                  "domain": "domain.net",
+                  "username": "username",
+                  "paymentAmount": null,
+                  "hasPayment": false,
+                  "password": "password",
+                  "adminId": null,
+                  "status": "pending",
+                  "canceledReason": null,
+                  "isActive": true,
+                  "description": "this is a description as long text",
+                  "startAt": "2023-01-19T02:11:10.000Z",
+                  "expireAt": "2023-01-19T02:11:10.000Z",
+                  "createdAt": "2023-01-19T22:59:07.000Z",
+                  "updatedAt": "2023-01-19T22:59:07.000Z"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": ["Organizations-Projects"],
+        "summary": "find all projects",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "status",
+            "description": "set status to filter",
+            "in": "query",
+            "type": "string",
+            "enum": ["canceled", "approved_for_payment", "approved", "pending"],
+            "required": false
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "search",
+            "description": "search",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 1,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "organizationsProjects": [
+                    {
+                      "id": 1,
+                      "name": "name",
+                      "budget": 2000,
+                      "isVip": false,
+                      "lowPrice": 100,
+                      "midPrice": 900,
+                      "highPrice": 1000,
+                      "ipAddress": "127.0.0.1",
+                      "link": "link.com",
+                      "domain": "domain.net",
+                      "username": "username",
+                      "paymentAmount": null,
+                      "hasPayment": false,
+                      "password": "password",
+                      "adminId": null,
+                      "status": "pending",
+                      "canceledReason": null,
+                      "isActive": true,
+                      "description": "this is a description as long text",
+                      "startAt": "2023-01-19T02:11:10.000Z",
+                      "expireAt": "2023-01-19T02:11:10.000Z",
+                      "createdAt": "2023-01-19T22:59:07.000Z",
+                      "updatedAt": "2023-01-19T22:59:07.000Z"
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {}
+}

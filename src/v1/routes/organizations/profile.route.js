@@ -4,9 +4,8 @@ const router = Router()
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
-const { hunters } = require('../../controllers')
-router.put('/iban', hunters.profile.updateIban)
-router.put('/social-networks', hunters.profile.updateSocialNetworkData)
-router.get('/', hunters.profile.findOne)
+const { organizations } = require('../../controllers')
+router.put('/change-password', organizations.profile.changePassword)
+router.get('/', organizations.profile.findOne)
 
 module.exports = router

@@ -1,7 +1,7 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
-const { httpError, errorTypes, messageTypes } = require('../../configs')
-const bcrypt = require('bcrypt')
+const { httpError } = require('../../configs')
+const { Op } = require('sequelize')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
@@ -14,8 +14,10 @@ const findAll = async (req, res) => {
       sequelize.models.organizations_projects
     )
 
+    const newWhere = { ...where, status: { [Op.not]: 'canceled' } }
+
     const r = await organizationsProjects.Get({
-      where,
+      where: newWhere,
       attributes: {
         exclude: ['organizationId']
       },
@@ -57,39 +59,4 @@ const findOne = (req, res) => {
     })
 }
 
-const update = async (req, res) => {
-  try {
-    const { id } = req.params
-
-    const adminId = req?.user[0]?.id
-
-    const { status, cancelReason } = req.body
-
-    const data = {
-      status,
-      cancelReason,
-      adminId
-    }
-
-    if (!status || (status !== 'canceled' && status !== 'approved_for_payment'))
-      return httpError(errorTypes.INVALID_INPUTS, res)
-
-    const r = await sequelize.models.organizations_projects.findOne({
-      where: {
-        id
-      }
-    })
-
-    if (!r) return httpError(errorTypes.PROJECT_NOT_FOUND, res)
-
-    await r.update(data)
-
-    return res
-      .status(messageTypes.SUCCESSFUL_UPDATE.statusCode)
-      .send(messageTypes.SUCCESSFUL_UPDATE)
-  } catch (e) {
-    return httpError(e, res)
-  }
-}
-
-module.exports = { findAll, update, findOne }
+module.exports = { findOne, findAll }

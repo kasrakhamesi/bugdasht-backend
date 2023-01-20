@@ -83,8 +83,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(
           'pending',
           'canceled',
+          'approved_for_payment',
           'approved',
-          'payment_pending',
           'end_of_budget'
         ),
         defaultValue: 'pending',
@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       canceledReason: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       isActive: {
         type: DataTypes.BOOLEAN,

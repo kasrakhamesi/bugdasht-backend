@@ -6,15 +6,68 @@ const organizationsProjects = new restful(
 )
 const vulnerabilities = new restful(sequelize.models.vulnerabilities)
 
-const findAll = async (req, res) => {}
+const findAll = async (req, res) => {
+  try {
+    const organizationId = req?.user[0]?.id
 
-const findOne = async (req, res) => {}
+    const { page, pageSize } = req.query
+    const [order, where] = await filters.filter(
+      req.query,
+      sequelize.models.organizations_projects
+    )
 
-const softDelete = async (req, res) => {}
+    const newWhere = { ...where, organizationId }
+
+    const r = await organizationsProjects.Get({
+      where: newWhere,
+      attributes: {
+        exclude: ['organizationId']
+      },
+      order: [['id', 'desc']],
+      pagination: {
+        active: true,
+        page,
+        pageSize
+      }
+    })
+
+    return res.status(r?.statusCode).send(r)
+  } catch (e) {
+    return httpError(e, res)
+  }
+}
+
+const findOne = (req, res) => {
+  const { id } = req.params
+  const organizationId = req?.user[0]?.id
+
+  return sequelize.models.organizations_projects
+    .findOne({
+      where: {
+        id,
+        organizationId
+      },
+      attributes: {
+        exclude: ['organizationId']
+      }
+    })
+    .then((r) => {
+      return res.status(200).send({
+        statusCode: 200,
+        data: r,
+        error: null
+      })
+    })
+    .catch((e) => {
+      return httpError(e, res)
+    })
+}
 
 const update = async (req, res) => {}
 
 const create = async (req, res) => {
+  const organizationId = req?.user[0]?.id
+
   const {
     name,
     budget,
@@ -27,11 +80,14 @@ const create = async (req, res) => {
     domain,
     username,
     password,
-    description
+    description,
+    startAt,
+    expireAt
   } = req.body
 
   const data = {
     name,
+    organizationId,
     budget,
     isVip,
     lowPrice,
@@ -42,7 +98,9 @@ const create = async (req, res) => {
     domain,
     username,
     password,
-    description
+    description,
+    startAt,
+    expireAt
   }
 
   return sequelize.models.organizations_projects
@@ -109,6 +167,5 @@ module.exports = {
   create,
   findAll,
   findOne,
-  update,
-  softDelete
+  update
 }
