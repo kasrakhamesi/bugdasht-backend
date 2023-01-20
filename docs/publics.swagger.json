@@ -10,7 +10,7 @@
   "schemes": ["http"],
   "paths": {
     "/projects/id/{id}": {
-      "post": {
+      "get": {
         "tags": ["Organizations-Projects"],
         "summary": "find one projects",
         "consumes": ["application/json"],
