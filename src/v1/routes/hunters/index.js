@@ -1,6 +1,11 @@
-const { Router } = require('express')
+const { Router, static } = require('express')
 const router = Router()
 const { passport } = require('../../middlewares')
+
+router.use(
+  '/files',
+  static(__dirname.replace('hunters', 'files').replace('routes', 'storages'))
+)
 
 const huntersPassport = passport.huntersPassport.authenticate('jwt', {
   session: false,

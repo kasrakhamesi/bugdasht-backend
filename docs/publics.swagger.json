@@ -5,7 +5,7 @@
     "description": "Bugdasht Backend Restful-API ( Public Routes )",
     "version": "1.0"
   },
-  "host": "localhost:3000",
+  "host": "185.79.157.27:3000",
   "basePath": "/v1/publics",
   "schemes": ["http"],
   "paths": {

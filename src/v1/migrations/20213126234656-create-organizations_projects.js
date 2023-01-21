@@ -15,6 +15,10 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false
       },
+      remainingBudget: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: false
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false

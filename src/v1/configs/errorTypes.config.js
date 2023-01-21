@@ -225,6 +225,14 @@ const Types = {
     statusCode: 400,
     message: 'درخواست برداشت یافت نشد'
   },
+  CANT_CHANGE_APPROVED_OR_REJECTED_PROJECT: {
+    statusCode: 400,
+    message: 'امکان تغییر پروژه تایید شده یا رد شده وجود ندارد'
+  },
+  ORGANIZATION_BUDGET_IS_NOT_ENOUGH: {
+    statusCode: 400,
+    message: 'سازمان بودجه مورد نظر برای تایید این گزارش را ندارد'
+  },
   DISCOUNT_CODE_NOT_FOR_YOU: {
     statusCode: 400,
     message: 'این کد تخفیف مختص شما نیست'

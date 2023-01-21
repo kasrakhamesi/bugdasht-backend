@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     username: 'root',
-    password: '',
+    password: 'kasra123',
     database: 'bugdasht',
     host: '127.0.0.1',
     port: 3306,

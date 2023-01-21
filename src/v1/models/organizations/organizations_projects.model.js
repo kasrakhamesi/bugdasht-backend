@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      remainingBudget: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false
+      },
       budget: {
         type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false

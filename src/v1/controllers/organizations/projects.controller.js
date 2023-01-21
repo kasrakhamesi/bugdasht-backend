@@ -1,6 +1,6 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
-const { httpError, messageTypes } = require('../../configs')
+const { httpError, messageTypes, errorTypes } = require('../../configs')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
@@ -99,7 +99,65 @@ const findOne = (req, res) => {
     })
 }
 
-const update = async (req, res) => {}
+const update = async (req, res) => {
+  try {
+    const { id } = req.params
+    const organizationId = req?.user[0]?.id
+
+    const {
+      name,
+      budget,
+      isVip,
+      lowPrice,
+      midPrice,
+      highPrice,
+      ipAddress,
+      link,
+      domain,
+      username,
+      password,
+      description,
+      startAt,
+      expireAt
+    } = req.body
+
+    const data = {
+      name,
+      organizationId,
+      budget,
+      isVip,
+      lowPrice,
+      midPrice,
+      highPrice,
+      ipAddress,
+      link,
+      domain,
+      username,
+      password,
+      description,
+      startAt,
+      expireAt,
+      remainingBudget: budget
+    }
+
+    const project = await sequelize.models.organizations_projects.findOne({
+      where: { id, organizationId }
+    })
+
+    if (!project) return httpError(errorTypes.PROJECT_NOT_FOUND, res)
+
+    if (project?.status !== 'pending')
+      return httpError(errorTypes.CANT_CHANGE_APPROVED_OR_REJECTED_PROJECT, res)
+
+    await project.update(data)
+
+    return res
+      .stauts(messageTypes.SUCCESSFUL_UPDATE.statusCode)
+      .send(messageTypes.SUCCESSFUL_UPDATE)
+  } catch (e) {
+    return httpError(e, res)
+  }
+}
 
 const create = async (req, res) => {
   const organizationId = req?.user[0]?.id
@@ -136,7 +194,8 @@ const create = async (req, res) => {
     password,
     description,
     startAt,
-    expireAt
+    expireAt,
+    remainingBudget: budget
   }
 
   return sequelize.models.organizations_projects
