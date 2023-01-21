@@ -9,5 +9,7 @@ const huntersPassport = passport.huntersPassport.authenticate('jwt', {
 router.use(passport.huntersPassport.initialize())
 router.use('/auth', require('./auth.route'))
 router.use('/profile', huntersPassport, require('./profile.route'))
+router.use('/projects', huntersPassport, require('./projects.route'))
+router.use('/reports', huntersPassport, require('./reports.route'))
 
 module.exports = router

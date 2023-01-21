@@ -19,27 +19,27 @@ module.exports = {
         },
         nickName: {
           type: Sequelize.STRING,
-          allowNull: true
+          allowNull: false
         },
         firstName: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true
         },
         lastName: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true
         },
         birthDate: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true
         },
         phoneNumber: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true
         },
         email: {
           type: Sequelize.STRING,
-          allowNull: true
+          allowNull: false
         },
         password: {
           type: Sequelize.STRING,
@@ -74,6 +74,11 @@ module.exports = {
           defaultValue: 0,
           allowNull: false
         },
+        isActive: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true,
+          allowNull: false
+        },
         createdAt: {
           allowNull: true,
           type: Sequelize.DATE
@@ -84,12 +89,22 @@ module.exports = {
         }
       })
       .then(() =>
+        queryInterface.addIndex('hunters', ['nickName'], {
+          unique: true
+        })
+      )
+      .then(() =>
         queryInterface.addIndex('hunters', ['phoneNumber'], {
           unique: true
         })
       )
       .then(() =>
         queryInterface.addIndex('hunters', ['nationalCode'], {
+          unique: true
+        })
+      )
+      .then(() =>
+        queryInterface.addIndex('hunters', ['email'], {
           unique: true
         })
       )

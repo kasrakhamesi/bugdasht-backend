@@ -55,6 +55,11 @@ module.exports = {
         }
       })
       .then(() =>
+        queryInterface.addIndex('organizations', ['name'], {
+          unique: true
+        })
+      )
+      .then(() =>
         queryInterface.addIndex('organizations', ['phoneNumber', 'status'], {
           unique: true
         })

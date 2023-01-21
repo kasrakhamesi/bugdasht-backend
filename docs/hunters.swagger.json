@@ -216,6 +216,103 @@
       }
     },
     "/profile": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "update profile",
+        "consumes": ["multipart/form-data"],
+        "produces": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "nickName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "nationalCode",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "firstName",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "lastName",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "birthDate",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "profileImage",
+            "type": "file",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "phoneNumber",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 200,
+                "data": {
+                  "message": "درخواست شما با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": ["Profile"],
         "summary": "get  profile",
@@ -338,7 +435,6 @@
         }
       }
     },
-
     "/profile/bank-accounts": {
       "put": {
         "tags": ["Profile"],
@@ -401,6 +497,630 @@
           }
         }
       }
+    },
+    "/projects/id/{id}/reports": {
+      "post": {
+        "tags": ["Project Report"],
+        "summary": "create report",
+        "consumes": ["multipart/form-data"],
+        "produces": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "bugTitle",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "domainOrIp",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "cvss",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "vector",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "cve",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "video",
+            "type": "file",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "picOne",
+            "type": "file",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "picTwo",
+            "type": "file",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "bugDescription",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "solutionDescription",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با موفقعیت ثبت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Project Report"],
+        "summary": "get reports",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "description": "set status to filter",
+            "in": "query",
+            "type": "string",
+            "enum": ["rejected", "approved", "pending"],
+            "required": false
+          },
+          {
+            "name": "search",
+            "description": "search",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 1,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "projectsReports": [
+                    {
+                      "id": 1,
+                      "bugTitle": "asda",
+                      "organizationsProjectId": 1,
+                      "domainOrIp": "asd",
+                      "cvss": "asd",
+                      "cve": "asd",
+                      "vector": "asd",
+                      "video": "undefined/f1_1_( 4efe5c386449389794a6ee601c38983d38161941-144p.mp4 ).mp4",
+                      "picOne": null,
+                      "picTwo": null,
+                      "bugDescription": "asd",
+                      "solutionDescription": "as",
+                      "adminId": null,
+                      "adminResponseStatus": "pending",
+                      "rejectedReason": null,
+                      "bugLevel": null,
+                      "payableAmount": null,
+                      "createdAt": "2023-01-21T13:50:49.000Z",
+                      "updatedAt": "2023-01-21T13:50:49.000Z",
+                      "project": {
+                        "id": 1,
+                        "organizationId": 1,
+                        "name": "name",
+                        "budget": 2000,
+                        "isVip": false,
+                        "lowPrice": 100,
+                        "midPrice": 900,
+                        "highPrice": 1000,
+                        "ipAddress": "127.0.0.1",
+                        "link": "link.com",
+                        "domain": "domain.net",
+                        "username": "username",
+                        "paymentAmount": null,
+                        "hasPayment": false,
+                        "password": "password",
+                        "adminId": 1,
+                        "status": "approved",
+                        "canceledReason": null,
+                        "isActive": true,
+                        "description": "this is a description as long text",
+                        "startAt": "2023-01-19T02:11:10.000Z",
+                        "expireAt": "2023-01-19T02:11:10.000Z",
+                        "createdAt": "2023-01-21T13:34:25.000Z",
+                        "updatedAt": "2023-01-21T13:35:28.000Z"
+                      }
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/id/{id}": {
+      "put": {
+        "tags": ["Project Report"],
+        "summary": "update report",
+        "consumes": ["multipart/form-data"],
+        "produces": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "bugTitle",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "domainOrIp",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "cvss",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "vector",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "cve",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "video",
+            "type": "file",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "picOne",
+            "type": "file",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "picTwo",
+            "type": "file",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "bugDescription",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "solutionDescription",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 200,
+                "data": {
+                  "message": "با موفقعیت آپدیت شد"
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "multipart/form-data": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Project Report"],
+        "summary": "get report",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "id": 1,
+                  "hunterId": 1,
+                  "bugTitle": "asda",
+                  "organizationsProjectId": 1,
+                  "domainOrIp": "asd",
+                  "cvss": "asd",
+                  "cve": "asd",
+                  "vector": "asd",
+                  "video": "undefined/f1_1_( 4efe5c386449389794a6ee601c38983d38161941-144p.mp4 ).mp4",
+                  "picOne": null,
+                  "picTwo": null,
+                  "bugDescription": "asd",
+                  "solutionDescription": "as",
+                  "adminId": null,
+                  "adminResponseStatus": "pending",
+                  "rejectedReason": null,
+                  "bugLevel": null,
+                  "payableAmount": null,
+                  "createdAt": "2023-01-21T13:50:49.000Z",
+                  "updatedAt": "2023-01-21T13:50:49.000Z",
+                  "project": {
+                    "id": 1,
+                    "organizationId": 1,
+                    "name": "name",
+                    "budget": 2000,
+                    "isVip": false,
+                    "lowPrice": 100,
+                    "midPrice": 900,
+                    "highPrice": 1000,
+                    "ipAddress": "127.0.0.1",
+                    "link": "link.com",
+                    "domain": "domain.net",
+                    "username": "username",
+                    "paymentAmount": null,
+                    "hasPayment": false,
+                    "password": "password",
+                    "adminId": 1,
+                    "status": "approved",
+                    "canceledReason": null,
+                    "isActive": true,
+                    "description": "this is a description as long text",
+                    "startAt": "2023-01-19T02:11:10.000Z",
+                    "expireAt": "2023-01-19T02:11:10.000Z",
+                    "createdAt": "2023-01-21T13:34:25.000Z",
+                    "updatedAt": "2023-01-21T13:35:28.000Z"
+                  }
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "tags": ["Project Report"],
+        "summary": "get reports",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Bearer Token",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "search",
+            "description": "search",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "status",
+            "description": "set status to filter",
+            "in": "query",
+            "type": "string",
+            "enum": ["rejected", "approved", "pending"],
+            "required": false
+          },
+          {
+            "name": "page",
+            "description": "set page number",
+            "in": "query",
+            "example": 0,
+            "type": "int",
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "description": "set pageSize",
+            "example": 25,
+            "in": "query",
+            "type": "int",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "statusCode": 200,
+                "data": {
+                  "page": 1,
+                  "pageSize": 5,
+                  "totalCount": 1,
+                  "totalPageLeft": 0,
+                  "totalCountLeft": 0,
+                  "projectsReports": [
+                    {
+                      "id": 1,
+                      "bugTitle": "asda",
+                      "organizationsProjectId": 1,
+                      "domainOrIp": "asd",
+                      "cvss": "asd",
+                      "cve": "asd",
+                      "vector": "asd",
+                      "video": "undefined/f1_1_( 4efe5c386449389794a6ee601c38983d38161941-144p.mp4 ).mp4",
+                      "picOne": null,
+                      "picTwo": null,
+                      "bugDescription": "asd",
+                      "solutionDescription": "as",
+                      "adminId": null,
+                      "adminResponseStatus": "pending",
+                      "rejectedReason": null,
+                      "bugLevel": null,
+                      "payableAmount": null,
+                      "createdAt": "2023-01-21T13:50:49.000Z",
+                      "updatedAt": "2023-01-21T13:50:49.000Z",
+                      "project": {
+                        "id": 1,
+                        "organizationId": 1,
+                        "name": "name",
+                        "budget": 2000,
+                        "isVip": false,
+                        "lowPrice": 100,
+                        "midPrice": 900,
+                        "highPrice": 1000,
+                        "ipAddress": "127.0.0.1",
+                        "link": "link.com",
+                        "domain": "domain.net",
+                        "username": "username",
+                        "paymentAmount": null,
+                        "hasPayment": false,
+                        "password": "password",
+                        "adminId": 1,
+                        "status": "approved",
+                        "canceledReason": null,
+                        "isActive": true,
+                        "description": "this is a description as long text",
+                        "startAt": "2023-01-19T02:11:10.000Z",
+                        "expireAt": "2023-01-19T02:11:10.000Z",
+                        "createdAt": "2023-01-21T13:34:25.000Z",
+                        "updatedAt": "2023-01-21T13:35:28.000Z"
+                      }
+                    }
+                  ]
+                },
+                "error": null
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "examples": {
+              "application/json": {
+                "statusCode": 400,
+                "data": null,
+                "error": {
+                  "message": "این یک خطا است",
+                  "details": []
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "examples": {
+              "application/json": {
+                "statusCode": 422,
+                "data": null,
+                "error": {
+                  "message": "اینپوت پیدا نشد",
+                  "details": [{ "phoneNumber": ["شماره تلفن وارد نشده است"] }]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -415,27 +1135,18 @@
     "Register": {
       "type": "object",
       "properties": {
-        "firstName": { "type": "string", "example": "kasra" },
-        "lastName": { "type": "string", "example": "khamesi" },
-        "nationalCode": {
-          "type": "number",
-          "example": "022922991"
-        },
-        "birthDate": {
-          "type": "string",
-          "example": "Birth Date"
-        },
+        "email": { "type": "string", "example": "kasra@gmail.com" },
+        "nickName": { "type": "string", "example": "khamesi" },
         "password": {
           "type": "string",
           "example": "password"
-        },
-        "phoneNumber": { "type": "string", "example": "09385667274" }
+        }
       }
     },
     "Login": {
       "type": "object",
       "properties": {
-        "phoneNumber": { "type": "string", "example": "09385667274" },
+        "email": { "type": "string", "example": "kasra@gmail.com" },
         "password": {
           "type": "string",
           "example": "password"

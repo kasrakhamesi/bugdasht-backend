@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      organizations_projects.belongsTo(models.organizations)
     }
   }
   organizations_projects.init(

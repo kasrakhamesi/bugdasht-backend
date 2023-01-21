@@ -18,6 +18,17 @@ const swaggerDocuments = {
 
 app.use('/v1', require('./src/v1/routes'))
 
+app.use((error, req, res, next) => {
+  res.status(500).send({
+    statusCode: 500,
+    data: null,
+    error: {
+      message: error?.message,
+      details: []
+    }
+  })
+})
+
 app.use('/v1/hunters/api-docs', swaggerUi.serve, (...args) =>
   swaggerUi.setup(swaggerDocuments.hunters)(...args)
 )

@@ -23,27 +23,27 @@ module.exports = (sequelize, DataTypes) => {
       },
       nickName: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       birthDate: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       },
       password: {
         type: DataTypes.STRING,
@@ -69,9 +69,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       balance: {
         type: DataTypes.BIGINT.UNSIGNED,
         defaultValue: 0,
+        allowNull: false
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
         allowNull: false
       }
     },

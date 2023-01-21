@@ -29,7 +29,8 @@ const login = async (req, res) => {
   const r = await sequelize.models.organizations
     .findOne({
       where: {
-        username
+        username,
+        status: 'approved'
       }
     })
     .catch((e) => {

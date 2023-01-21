@@ -4,7 +4,43 @@ const { httpError, messageTypes } = require('../../configs')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
+const reports = new restful(sequelize.models.projects_reports)
+
 const vulnerabilities = new restful(sequelize.models.vulnerabilities)
+
+const findAllReportsByProjectId = async (req, res) => {
+  try {
+    const organizationId = req?.user[0]?.id
+
+    const { id } = req.params
+    const { page, pageSize } = req.query
+    const [order, where] = await filters.filter(
+      req.query,
+      sequelize.models.projects_reports
+    )
+
+    const newWhere = { ...where, organizationsProjectId: id, organizationId }
+
+    const r = await reports.Get({
+      where: newWhere,
+      include: [
+        {
+          model: sequelize.models.hunters,
+          attributes: ['nickName']
+        }
+      ],
+      order: [['id', 'desc']],
+      pagination: {
+        active: true,
+        page,
+        pageSize
+      }
+    })
+    return res.status(r?.statusCode).send(r)
+  } catch (e) {
+    return httpError(e, res)
+  }
+}
 
 const findAll = async (req, res) => {
   try {
@@ -167,5 +203,6 @@ module.exports = {
   create,
   findAll,
   findOne,
-  update
+  update,
+  findAllReportsByProjectId
 }

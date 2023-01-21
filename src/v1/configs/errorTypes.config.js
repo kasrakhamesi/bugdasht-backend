@@ -241,9 +241,9 @@ const Types = {
     statusCode: 400,
     message: 'کد تخفیف ساخته شده برای رنگ پرینت شما فعال نمیباشد'
   },
-  DISCOUNT_CODE_IS_NOT_ACTIVE_FOR_YOUR_FOLDER_PRINT_COLOR: {
+  PROJECT_NOT_FOUND: {
     statusCode: 400,
-    message: 'کد تخفیف ساخته شده برای رنگ پرینت شما فعال نمیباشد'
+    message: 'این پروژه برای آپدیت وجود ندارد'
   }
 }
 

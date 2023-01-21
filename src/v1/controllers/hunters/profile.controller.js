@@ -2,6 +2,90 @@ const { httpError, errorTypes, messageTypes } = require('../../configs')
 const { sequelize } = require('../../models')
 const bcrypt = require('bcrypt')
 const { utils } = require('../../libs')
+const fs = require('fs')
+const path = require('path')
+
+const update = async (req, res) => {
+  try {
+    const hunterId = req?.user[0]?.id
+
+    const {
+      nickName,
+      nationalCode,
+      firstName,
+      lastName,
+      birthDate,
+      phoneNumber,
+      email
+    } = req.body
+
+    const data = {
+      nickName,
+      nationalCode,
+      firstName,
+      lastName,
+      birthDate,
+      phoneNumber,
+      email
+    }
+
+    const { profileImage } = req.files
+
+    if (!req.files || Object.keys(req.files).length === 0 || !profileImage)
+      return httpError(errorTypes.FILE_NOT_SELECTED, res)
+
+    profileImage.name =
+      String(path.extname(profileImage.name)).toLowerCase() === '.peg'
+        ? `1${String(profileImage.name).replace('j.peg', '')}.jpeg`
+        : profileImage.name === '.png'
+        ? '1.png'
+        : profileImage.name === '.jpg'
+        ? '1.jpg'
+        : profileImage.name
+
+    const extensionName = path.extname(profileImage.name)
+
+    const allowedExtension = ['.jpg', '.jpeg', '.png']
+
+    if (!allowedExtension.includes(extensionName.toLowerCase()))
+      return httpError(errorTypes.INVALID_PDF_DOCX_FORMAT, res)
+
+    const hunter = await sequelize.models.hunters.findOne({
+      where: {
+        id: hunterId
+      }
+    })
+
+    if (!hunter) return httpError(errorTypes.USER_NOT_FOUND, res)
+
+    let newFileName = `f${hunterId}_0_( ${profileImage.name} )${extensionName}`
+
+    let filePath = `./src/v1/storages/files/${hunterId}/${newFileName}`
+    if (fs.existsSync(filePath)) {
+      for (let k = 0; k < Number.MAX_VALUE; k++) {
+        newFileName = `f${hunterId}_${k}_( ${profileImage.name} )${extensionName}`
+
+        const endPath = `./src/v1/storages/files/${hunterId}/${newFileName}`
+
+        if (fs.existsSync(endPath)) continue
+        filePath = endPath
+        break
+      }
+    }
+
+    await profileImage.mv(filePath)
+
+    data.profileImage = `${process.env.BACKEND_BASE_URL}/${newFileName}`
+
+    await hunter.update(data)
+
+    return res
+      .status(messageTypes.SUCCESSFUL_UPDATE.statusCode)
+      .send(messageTypes.SUCCESSFUL_UPDATE)
+  } catch (e) {
+    return httpError(e, res)
+  }
+}
 
 const updateIban = (req, res) => {
   const { shebaNumber } = req.body
@@ -115,5 +199,6 @@ module.exports = {
   updateIban,
   updateSocialNetworkData,
   findOne,
-  changePassword
+  changePassword,
+  update
 }

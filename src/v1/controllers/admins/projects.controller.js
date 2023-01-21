@@ -1,10 +1,42 @@
 const { sequelize } = require('../../models')
 const { restful, filters } = require('../../libs')
 const { httpError, errorTypes, messageTypes } = require('../../configs')
-const bcrypt = require('bcrypt')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
+const reports = new restful(sequelize.models.projects_reports)
+
+const findAllReportsByProjectId = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { page, pageSize } = req.query
+    const [order, where] = await filters.filter(
+      req.query,
+      sequelize.models.projects_reports
+    )
+
+    const newWhere = { ...where, organizationsProjectId: id }
+
+    const r = await reports.Get({
+      where: newWhere,
+      include: [
+        {
+          model: sequelize.models.hunters,
+          attributes: ['nickName']
+        }
+      ],
+      order: [['id', 'desc']],
+      pagination: {
+        active: true,
+        page,
+        pageSize
+      }
+    })
+    return res.status(r?.statusCode).send(r)
+  } catch (e) {
+    return httpError(e, res)
+  }
+}
 
 const findAll = async (req, res) => {
   try {
@@ -71,7 +103,12 @@ const update = async (req, res) => {
       adminId
     }
 
-    if (!status || (status !== 'canceled' && status !== 'approved_for_payment'))
+    if (
+      !status ||
+      (status !== 'canceled' &&
+        status !== 'approved_for_payment' &&
+        status !== 'approved')
+    )
       return httpError(errorTypes.INVALID_INPUTS, res)
 
     const r = await sequelize.models.organizations_projects.findOne({
@@ -92,4 +129,4 @@ const update = async (req, res) => {
   }
 }
 
-module.exports = { findAll, update, findOne }
+module.exports = { findAll, update, findOne, findAllReportsByProjectId }

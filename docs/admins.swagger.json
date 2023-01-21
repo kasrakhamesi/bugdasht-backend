@@ -9,7 +9,7 @@
   "basePath": "/v1/admins",
   "schemes": ["http"],
   "paths": {
-    "/admins/profile": {
+    "/profile": {
       "put": {
         "tags": ["Profile"],
         "summary": "Update or change admin profile",
@@ -128,7 +128,7 @@
         }
       }
     },
-    "/admins": {
+    "/": {
       "post": {
         "tags": ["Admins"],
         "summary": "create new admin",
@@ -205,7 +205,7 @@
           },
           {
             "name": "search",
-            "description": "search by phoneNumber or name",
+            "description": "search",
             "in": "query",
             "type": "string",
             "required": false
@@ -311,7 +311,7 @@
         }
       }
     },
-    "/admins/id/{id}": {
+    "/id/{id}": {
       "get": {
         "tags": ["Admins"],
         "summary": "find one of admin Data",
@@ -1503,7 +1503,7 @@
         "status": {
           "type": "string",
           "example": "canceled",
-          "enum": ["approved_for_payment", "canceled"]
+          "enum": ["approved_for_payment", "canceled", "approved"]
         },
         "cancelReason": {
           "type": "string",

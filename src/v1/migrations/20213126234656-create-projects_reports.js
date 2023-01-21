@@ -12,7 +12,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      projectId: {
+      hunterId: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: 'hunters', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false
+      },
+      organizationId: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        references: { model: 'organizations', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false
+      },
+      organizationsProjectId: {
         type: Sequelize.BIGINT.UNSIGNED,
         references: { model: 'organizations_projects', key: 'id' },
         onUpdate: 'CASCADE',
@@ -53,6 +67,30 @@ module.exports = {
       },
       solutionDescription: {
         type: Sequelize.TEXT('long'),
+        allowNull: true
+      },
+      adminId: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        references: { model: 'admins', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
+      adminResponseStatus: {
+        type: Sequelize.ENUM('approved', 'rejected', 'pending'),
+        defaultValue: 'pending',
+        allowNull: false
+      },
+      rejectedReason: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      bugLevel: {
+        type: Sequelize.ENUM('low', 'mid', 'high'),
+        allowNull: true
+      },
+      payableAmount: {
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: true
       },
       createdAt: {

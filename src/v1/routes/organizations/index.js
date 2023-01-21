@@ -13,5 +13,6 @@ router.use(passport.organizationsPassport.initialize())
 router.use('/auth', require('./auth.route'))
 router.use('/projects', organizationsPassport, require('./projects.route'))
 router.use('/profile', organizationsPassport, require('./profile.route'))
+router.use('/reports', organizationsPassport, require('./reports.route'))
 
 module.exports = router

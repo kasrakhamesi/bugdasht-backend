@@ -5,14 +5,13 @@ const bcrypt = require('bcrypt')
 const { utils } = require('../../libs')
 
 const login = async (req, res) => {
-  const { phoneNumber, password } = req.body
-  if (!phoneNumber || !password)
-    return httpError(errorTypes.INVALID_INPUTS, res)
+  const { email, password } = req.body
+  if (!email || !password) return httpError(errorTypes.INVALID_INPUTS, res)
 
   const r = await sequelize.models.hunters
     .findOne({
       where: {
-        phoneNumber
+        email
       }
     })
     .catch((e) => {
@@ -44,20 +43,10 @@ const login = async (req, res) => {
 }
 
 const register = (req, res) => {
-  const {
-    firstName,
-    lastName,
-    nationalCode,
-    birthDate,
-    phoneNumber,
-    password
-  } = req.body
+  const { email, nickName, password } = req.body
   const data = {
-    firstName,
-    lastName,
-    nationalCode,
-    birthDate,
-    phoneNumber,
+    email,
+    nickName,
     password: bcrypt.hashSync(password, 12)
   }
   return sequelize.models.hunters
