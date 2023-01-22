@@ -270,6 +270,11 @@
             "in": "formData",
             "name": "email",
             "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "required": false
           }
         ],
         "responses": {

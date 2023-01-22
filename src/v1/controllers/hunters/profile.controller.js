@@ -16,7 +16,8 @@ const update = async (req, res) => {
       lastName,
       birthDate,
       phoneNumber,
-      email
+      email,
+      description
     } = req.body
 
     const data = {
@@ -26,30 +27,9 @@ const update = async (req, res) => {
       lastName,
       birthDate,
       phoneNumber,
-      email
+      email,
+      description
     }
-
-    const { profileImage } = req.files
-
-    if (!req.files || Object.keys(req.files).length === 0 || !profileImage)
-      return httpError(errorTypes.FILE_NOT_SELECTED, res)
-
-    profileImage.name =
-      String(path.extname(profileImage.name)).toLowerCase() === '.peg'
-        ? `1${String(profileImage.name).replace('j.peg', '')}.jpeg`
-        : profileImage.name === '.png'
-        ? '1.png'
-        : profileImage.name === '.jpg'
-        ? '1.jpg'
-        : profileImage.name
-
-    const extensionName = path.extname(profileImage.name)
-
-    const allowedExtension = ['.jpg', '.jpeg', '.png']
-
-    if (!allowedExtension.includes(extensionName.toLowerCase()))
-      return httpError(errorTypes.INVALID_PDF_DOCX_FORMAT, res)
-
     const hunter = await sequelize.models.hunters.findOne({
       where: {
         id: hunterId
@@ -58,24 +38,47 @@ const update = async (req, res) => {
 
     if (!hunter) return httpError(errorTypes.USER_NOT_FOUND, res)
 
-    let newFileName = `f${hunterId}_0_( ${profileImage.name} )${extensionName}`
+    if (req.files) {
+      const { profileImage } = req.files
 
-    let filePath = `./src/v1/storages/files/${hunterId}/${newFileName}`
-    if (fs.existsSync(filePath)) {
-      for (let k = 0; k < Number.MAX_VALUE; k++) {
-        newFileName = `f${hunterId}_${k}_( ${profileImage.name} )${extensionName}`
+      if (!req.files || Object.keys(req.files).length === 0 || !profileImage)
+        return httpError(errorTypes.INVALID_INPUTS, res)
 
-        const endPath = `./src/v1/storages/files/${hunterId}/${newFileName}`
+      profileImage.name =
+        String(path.extname(profileImage.name)).toLowerCase() === '.peg'
+          ? `1${String(profileImage.name).replace('j.peg', '')}.jpeg`
+          : profileImage.name === '.png'
+          ? '1.png'
+          : profileImage.name === '.jpg'
+          ? '1.jpg'
+          : profileImage.name
 
-        if (fs.existsSync(endPath)) continue
-        filePath = endPath
-        break
+      const extensionName = path.extname(profileImage.name)
+
+      const allowedExtension = ['.jpg', '.jpeg', '.png']
+
+      if (!allowedExtension.includes(extensionName.toLowerCase()))
+        return httpError(errorTypes.INVALID_PDF_DOCX_FORMAT, res)
+
+      let newFileName = `f${hunterId}_0_( ${profileImage.name} )${extensionName}`
+
+      let filePath = `./src/v1/storages/files/${hunterId}/${newFileName}`
+      if (fs.existsSync(filePath)) {
+        for (let k = 0; k < Number.MAX_VALUE; k++) {
+          newFileName = `f${hunterId}_${k}_( ${profileImage.name} )${extensionName}`
+
+          const endPath = `./src/v1/storages/files/${hunterId}/${newFileName}`
+
+          if (fs.existsSync(endPath)) continue
+          filePath = endPath
+          break
+        }
       }
+
+      await profileImage.mv(filePath)
+
+      data.profileImage = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
     }
-
-    await profileImage.mv(filePath)
-
-    data.profileImage = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
 
     await hunter.update(data)
 
