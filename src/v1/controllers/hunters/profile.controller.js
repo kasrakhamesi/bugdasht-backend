@@ -115,7 +115,6 @@ const updateIban = (req, res) => {
 const updateSocialNetworkData = (req, res) => {
   const { twitter, linkedin, bugCrowd, hackerOne } = req.body
   const data = { twitter, linkedin, bugCrowd, hackerOne }
-  if (!shebaNumber) return httpError(errorTypes.INVALID_INPUTS, res)
   const hunterId = req?.user[0]?.id
   return sequelize.models.hunters
     .findOne({
