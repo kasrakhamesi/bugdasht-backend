@@ -96,7 +96,7 @@ const create = async (req, res) => {
 
     await video.mv(filePath)
 
-    data.video = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
+    data.video = `${process.env.BACKEND_BASE_URL}/hunters/files/${hunterId}/${newFileName}`
 
     if (picOne) {
       const extensionName = path.extname(picOne.name)
@@ -122,7 +122,7 @@ const create = async (req, res) => {
       }
       await picOne.mv(filePath)
 
-      data.picOne = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
+      data.picOne = `${process.env.BACKEND_BASE_URL}/hunters/files/${hunterId}/${newFileName}`
     }
 
     if (picTwo) {
@@ -150,7 +150,7 @@ const create = async (req, res) => {
 
       await picTwo.mv(filePath)
 
-      data.picTwo = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
+      data.picTwo = `${process.env.BACKEND_BASE_URL}/hunters/files/${hunterId}/${newFileName}`
     }
 
     await sequelize.models.projects_reports.create(data)

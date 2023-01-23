@@ -77,7 +77,7 @@ const update = async (req, res) => {
 
       await profileImage.mv(filePath)
 
-      data.profileImage = `${process.env.BACKEND_BASE_URL}/files/${newFileName}`
+      data.profileImage = `${process.env.BACKEND_BASE_URL}/files/${hunterId}/${newFileName}`
     }
 
     await hunter.update(data)
