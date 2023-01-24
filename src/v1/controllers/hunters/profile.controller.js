@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const { utils } = require('../../libs')
 const fs = require('fs')
 const path = require('path')
+const { authorize } = require('../../middlewares')
 
 const update = async (req, res) => {
   try {
@@ -133,46 +134,50 @@ const updateSocialNetworkData = (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-  const hunterId = req?.user[0]?.id
+  try {
+    const hunterId = req?.user[0]?.id
 
-  const { previousPassword, newPassword } = req.body
-  if (!previousPassword || !newPassword)
-    return httpError(errorTypes.INVALID_INPUTS, res)
+    const { previousPassword, newPassword } = req.body
+    if (!previousPassword || !newPassword)
+      return httpError(errorTypes.INVALID_INPUTS, res)
 
-  const r = await sequelize.models.hunters
-    .findOne({
-      where: {
-        id: hunterId
-      }
+    const r = await sequelize.models.hunters
+      .findOne({
+        where: {
+          id: hunterId
+        }
+      })
+      .catch((e) => {
+        return httpError(e, res)
+      })
+
+    if (!r) return httpError(errorTypes.USER_NOT_FOUND, res)
+
+    if (!bcrypt.compareSync(previousPassword, r?.password))
+      return httpError(errorTypes.INVALID_PASSWORD, res)
+
+    await r.update({ password: newPassword })
+
+    const accessToken = authorize.generateHunterJwt(r?.id, r?.phoneNumber)
+
+    delete r?.dataValues?.password
+
+    return res.status(200).send({
+      statusCode: 200,
+      data: {
+        ...r?.dataValues,
+        token: {
+          access: accessToken,
+          expireAt: utils.timestampToIso(
+            authorize.decodeJwt(accessToken, 'hunter').exp
+          )
+        }
+      },
+      error: null
     })
-    .catch((e) => {
-      return httpError(e, res)
-    })
-
-  if (!r) return httpError(errorTypes.USER_NOT_FOUND, res)
-
-  if (!bcrypt.compareSync(previousPassword, r?.password))
-    return httpError(errorTypes.INVALID_PASSWORD, res)
-
-  await r.update({ password: newPassword })
-
-  const accessToken = authorize.generateHunterJwt(r?.id, r?.phoneNumber)
-
-  delete r?.dataValues?.password
-
-  return res.status(200).send({
-    statusCode: 200,
-    data: {
-      ...r?.dataValues,
-      token: {
-        access: accessToken,
-        expireAt: utils.timestampToIso(
-          authorize.decodeJwt(accessToken, 'hunter').exp
-        )
-      }
-    },
-    error: null
-  })
+  } catch (e) {
+    return httpError(e, res)
+  }
 }
 
 const findOne = async (req, res) => {
