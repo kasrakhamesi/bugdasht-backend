@@ -38,7 +38,8 @@ const filter = async (query, model) => {
         String(key).toLowerCase() === 'startat' ||
         String(key).toLowerCase() === 'endat' ||
         String(key).toLowerCase() === 'sortorder' ||
-        String(key).toLowerCase() === 'blogtype'
+        String(key).toLowerCase() === 'blogtype' ||
+        String(key).toLowerCase() === 'reports'
       )
         continue
       structure.push({ [key]: query[key] })

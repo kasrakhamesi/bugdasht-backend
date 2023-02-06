@@ -4,6 +4,7 @@ const { httpError, messageTypes, errorTypes } = require('../../configs')
 const organizationsProjects = new restful(
   sequelize.models.organizations_projects
 )
+
 const reports = new restful(sequelize.models.projects_reports)
 
 const vulnerabilities = new restful(sequelize.models.vulnerabilities)
@@ -52,6 +53,8 @@ const findAll = async (req, res) => {
       sequelize.models.organizations_projects
     )
 
+    const { reports } = req.query
+
     const newWhere = { ...where, organizationId }
 
     const r = await organizationsProjects.Get({
@@ -67,36 +70,89 @@ const findAll = async (req, res) => {
       }
     })
 
+    if (String(reports).toLocaleLowerCase() === 'true') {
+      const organizationsProjects = r?.data?.organizationsProjects
+      for (let k = 0; k < organizationsProjects.length; k++) {
+        const projectReports = await sequelize.models.projects_reports.findAll({
+          where: { organizationsProjectId: organizationsProjects[k].id },
+          include: [
+            {
+              model: sequelize.models.hunters,
+              attributes: ['nickName']
+            }
+          ]
+        })
+        organizationsProjects[k] = Object.assign(
+          {},
+          organizationsProjects[k]?.dataValues,
+          {
+            reports: projectReports
+          }
+        )
+      }
+    } else {
+      const organizationsProjects = r?.data?.organizationsProjects
+      for (let k = 0; k < organizationsProjects.length; k++) {
+        organizationsProjects[k] = Object.assign(
+          {},
+          organizationsProjects[k]?.dataValues,
+          {
+            reports: []
+          }
+        )
+      }
+    }
+
     return res.status(r?.statusCode).send(r)
   } catch (e) {
     return httpError(e, res)
   }
 }
 
-const findOne = (req, res) => {
-  const { id } = req.params
-  const organizationId = req?.user[0]?.id
+const findOne = async (req, res) => {
+  try {
+    const { id } = req.params
+    const organizationId = req?.user[0]?.id
+    const { reports } = req.query
 
-  return sequelize.models.organizations_projects
-    .findOne({
-      where: {
-        id,
-        organizationId
-      },
-      attributes: {
-        exclude: ['organizationId']
-      }
-    })
-    .then((r) => {
-      return res.status(200).send({
-        statusCode: 200,
-        data: r,
-        error: null
+    const organizationProject =
+      await sequelize.models.organizations_projects.findOne({
+        where: {
+          id,
+          organizationId
+        },
+        attributes: {
+          exclude: ['organizationId']
+        }
       })
+
+    let projectReports = []
+
+    if (String(reports).toLocaleLowerCase() === 'true')
+      projectReports = await sequelize.models.projects_reports.findAll({
+        where: { organizationsProjectId: id },
+        include: [
+          {
+            model: sequelize.models.hunters,
+            attributes: ['nickName']
+          }
+        ]
+      })
+
+    if (!organizationProject) projectReports = undefined
+
+    const data = Object.assign({}, organizationProject?.dataValues, {
+      reports: projectReports
     })
-    .catch((e) => {
-      return httpError(e, res)
+
+    return res.status(200).send({
+      statusCode: 200,
+      data: data?.reports === undefined ? [] : data,
+      error: null
     })
+  } catch (e) {
+    return httpError(e, res)
+  }
 }
 
 const update = async (req, res) => {

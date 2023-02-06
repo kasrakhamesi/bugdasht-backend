@@ -13,11 +13,6 @@ const findAll = async (req, res) => {
     )
 
     const r = await admins.Get({
-      include: {
-        model: sequelize.models.admins_roles,
-        as: 'role',
-        attributes: ['id', 'name']
-      },
       attributes: [
         'id',
         'name',
@@ -45,11 +40,6 @@ const findOne = async (req, res) => {
   const { id } = req.params
   return sequelize.models.admins
     .findOne({
-      include: {
-        model: sequelize.models.admins_roles,
-        as: 'role',
-        attributes: ['id', 'name']
-      },
       where: { id },
       attributes: {
         exclude: ['roleId', 'password']

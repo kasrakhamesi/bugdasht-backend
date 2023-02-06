@@ -5,7 +5,7 @@
     "description": "Bugdasht Backend Restful-API ( Organizations Panel )",
     "version": "1.0"
   },
-  "host": "185.79.157.27:3000",
+  "host": "localhost:3000",
   "basePath": "/v1/organizations",
   "schemes": ["http"],
   "paths": {
@@ -157,6 +157,14 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "reports",
+            "in": "query",
+            "example": "true",
+            "required": false,
+            "type": "boolean",
+            "enum": [true, false]
           }
         ],
         "responses": {
@@ -365,6 +373,14 @@
             "in": "header",
             "type": "string",
             "required": true
+          },
+          {
+            "name": "reports",
+            "in": "query",
+            "example": "true",
+            "required": false,
+            "type": "boolean",
+            "enum": [true, false]
           },
           {
             "name": "status",

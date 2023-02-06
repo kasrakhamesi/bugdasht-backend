@@ -51,11 +51,6 @@ const findOne = (req, res) => {
   const adminId = req?.user[0]?.id
   return sequelize.models.admins
     .findOne({
-      include: {
-        model: sequelize.models.admins_roles,
-        as: 'role',
-        attributes: ['id', 'name']
-      },
       where: {
         id: adminId
       },
